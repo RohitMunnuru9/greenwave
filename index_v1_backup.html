@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GreenWave · Adaptive Signal Prototype</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{--bg:#1b2742;--bg2:#223050;--panel:#2a3a5e;--panel2:#31436b;--line:rgba(255,255,255,.14);--fg:#f6f8fc;--mute:#c2cce0;--amber:#ffb347;--red:#ff4d4f;--yel:#ffc53d;--grn:#38e58f;--blue:#5aa0ff;
+--display:'Syne',sans-serif;--body:'Manrope',sans-serif;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:radial-gradient(ellipse at 20% 0%,#2e4068,#1b2742 60%);color:var(--fg);font-family:var(--body);font-size:15px;padding:0 16px 24px}
+header{display:flex;align-items:center;gap:18px;padding:16px 4px;border-bottom:1px solid var(--line);margin-bottom:18px;flex-wrap:wrap}
+header .logo{font-family:var(--display);font-weight:800;letter-spacing:.06em;display:flex;align-items:center;gap:10px}
+header .logo i{width:10px;height:10px;border-radius:50%;background:var(--grn);box-shadow:0 0 12px var(--grn)}
+header .role{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--amber);text-transform:uppercase}
+header nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+header nav a,button.btn,select,label.file{font:inherit;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:8px 14px;text-decoration:none;cursor:pointer;font-weight:600;font-size:13px}
+header nav a.cur{background:var(--amber);color:#1a1206;border-color:var(--amber)}
+button.btn.danger{background:var(--red);border-color:var(--red);color:#fff}
+button.btn.ok{background:var(--grn);border-color:var(--grn);color:#062a17}
+button.btn:disabled{opacity:.5;cursor:default}
+.grid{display:grid;gap:16px}
+.g-junction{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:start}
+.card{background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:16px;padding:16px 18px;min-width:0}
+.card h3{font-family:var(--display);font-size:16px;margin:0 0 10px;letter-spacing:.01em;display:flex;align-items:center;gap:10px}
+.card h3 .tag{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--mute);text-transform:uppercase;font-weight:500}
+.video-wrap{position:relative;background:#0e1527;border-radius:12px;overflow:hidden;aspect-ratio:16/9}
+.video-wrap video,.video-wrap canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.video-wrap .overlay{position:absolute;left:12px;top:12px;display:flex;gap:8px;flex-wrap:wrap}
+.pill{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:rgba(10,16,30,.75);border:1px solid var(--line);color:var(--mute)}
+.pill.live{color:var(--grn);border-color:var(--grn)}
+.pill.warn{color:var(--amber);border-color:var(--amber)}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.controls .lbl{font-size:12px;color:var(--mute);font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.junction-view{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.approach{background:var(--panel);border-radius:12px;padding:12px 14px;border:1px solid var(--line)}
+.approach .top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.approach .name{font-family:var(--display);font-weight:700}
+.approach .src{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--mute);text-transform:uppercase;margin-left:auto}
+.head{display:inline-flex;gap:5px;padding:4px 6px;border-radius:999px;background:#17223a;border:1px solid var(--line)}
+.head b{width:11px;height:11px;border-radius:50%;background:#3a4a6c;display:block}
+.head b.on-r{background:var(--red);box-shadow:0 0 8px var(--red)}.head b.on-a{background:var(--yel);box-shadow:0 0 8px var(--yel)}.head b.on-g{background:var(--grn);box-shadow:0 0 8px var(--grn)}
+.bar{height:10px;border-radius:5px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--grn),var(--amber),var(--red));transition:width .4s}
+.approach .nums{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--mute);margin-top:6px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px}
+.kpi .v{font-family:var(--display);font-weight:800;font-size:26px;font-variant-numeric:tabular-nums}
+.kpi small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--mute);text-transform:uppercase;margin-top:4px}
+.log{max-height:280px;overflow:auto;font-size:13px;display:flex;flex-direction:column;gap:6px}
+.log .e{display:grid;grid-template-columns:62px 1fr;gap:10px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.05);border-left:3px solid var(--line)}
+.log .e time{font-family:var(--mono);font-size:11px;color:var(--mute)}
+.log .e.decide{border-left-color:var(--grn)}.log .e.amb{border-left-color:var(--red);background:rgba(255,77,79,.12)}.log .e.msg{border-left-color:var(--blue)}.log .e.cam{border-left-color:var(--amber)}
+.alert{display:none;align-items:center;gap:14px;padding:14px 18px;border-radius:14px;background:rgba(255,77,79,.16);border:1px solid var(--red);margin-bottom:16px}
+.alert.show{display:flex;animation:blink 1s infinite}
+.alert .big{font-family:var(--display);font-weight:800;font-size:18px}
+.alert .eta{font-family:var(--mono);font-size:28px;margin-left:auto;font-variant-numeric:tabular-nums}
+@keyframes blink{0%,100%{box-shadow:0 0 0 0 rgba(255,77,79,0)}50%{box-shadow:0 0 0 6px rgba(255,77,79,.25)}}
+.phase{font-family:var(--mono);font-size:12px;color:var(--mute);letter-spacing:.1em;text-transform:uppercase}
+.phase b{color:var(--fg)}
+.map{position:relative;height:220px;border-radius:14px;background:#15203a;border:1px solid var(--line);overflow:hidden}
+.map svg{width:100%;height:100%}
+.jbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
+.jbox h4{margin:0 0 8px;font-family:var(--display);font-size:15px;display:flex;align-items:center;gap:10px}
+.jbox h4 .st{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--mute)}
+.mini{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.mini div{background:rgba(255,255,255,.05);border-radius:8px;padding:8px;font-family:var(--mono);font-size:11px;color:var(--mute)}
+.mini div b{display:block;color:var(--fg);font-family:var(--display);font-size:18px}
+.hint{font-size:12px;color:var(--mute);margin-top:8px;line-height:1.4}
+.explain{background:rgba(56,229,143,.08);border:1px solid rgba(56,229,143,.35);border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.45}
+.explain b{color:var(--grn)}
+.offline{display:none;padding:10px 14px;border-radius:10px;background:rgba(255,179,71,.14);border:1px solid var(--amber);font-size:13px;margin-bottom:12px}
+.chart{height:170px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+.chart canvas{width:100%;height:100%;display:block}
+.legend{display:flex;gap:16px;font-family:var(--mono);font-size:11px;color:var(--mute);margin-top:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.demo{background:var(--amber);border-color:var(--amber);color:#1a1206}
+.steps{font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.06em}
+@media (max-width:980px){.g-junction{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><i></i>GREENWAVE</div>
+  <div class="role" id="roleLabel">Junction A</div>
+  <nav>
+    <a href="#junction=A" id="navA">Junction A (camera)</a>
+    <a href="#junction=B" id="navB">Junction B</a>
+    <a href="#control" id="navC">Control room</a>
+  </nav>
+</header>
+
+<div class="alert" id="alert"><span>🚑</span><div><div class="big" id="alertTitle">Ambulance incoming</div><div id="alertSub">From Junction A, westbound. Pre-clearing east–west green.</div></div><div class="eta" id="alertEta">--</div></div>
+<div class="offline" id="offline"></div>
+
+<!-- ======================= JUNCTION VIEW ======================= -->
+<div id="viewJunction" class="grid g-junction">
+  <div class="grid">
+    <div class="card" id="camCard">
+      <h3>CCTV feed <span class="tag" id="camTag">not started</span></h3>
+      <div class="video-wrap"><video id="video" autoplay muted playsinline></video><canvas id="draw"></canvas>
+        <div class="overlay"><span class="pill" id="pillModel">model: loading</span><span class="pill" id="pillFps">0 fps</span><span class="pill" id="pillCount">0 vehicles</span><span class="pill" id="pillMix">—</span></div></div>
+      <div class="controls">
+        <span class="lbl">source</span>
+        <select id="srcSel"><option value="sample">Sample CCTV clip</option><option value="youtube">YouTube link</option><option value="library">Downloaded videos</option><option value="file">Video file from this PC</option><option value="webcam">Webcam</option></select>
+        <input type="url" id="ytUrl" placeholder="paste YouTube link of a junction video" style="display:none;flex:1;min-width:260px;font:inherit;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:8px 14px">
+        <select id="libSel" style="display:none"></select>
+        <input type="file" id="fileIn" accept="video/*" style="display:none">
+        <button class="btn ok" id="btnCam">Start feed</button>
+        <select id="camSel" title="Camera" style="display:none"></select>
+        <span class="lbl">feeds approach</span>
+        <select id="camApproach"><option value="W">West</option><option value="E">East</option><option value="N">North</option><option value="S">South</option></select>
+        <button class="btn danger" id="btnAmb">Simulate ambulance on camera approach</button>
+        <button class="btn demo" id="btnDemo">Run 60-second demo</button>
+      </div>
+      <p class="hint">Detection runs in the browser (TensorFlow.js, COCO-SSD) on whatever is playing: the bundled CCTV clip, a YouTube junction video (paste the link, the local server downloads it, then it plays), a downloaded video, a file from this PC, or a webcam. Vehicles counted: car, bus, truck, motorcycle, bicycle. Ambulance: a detected vehicle whose box is mostly white with a red band for 3 frames in a row, or the test button.</p>
+    </div>
+    <div class="card">
+      <h3>Why the signal did that <span class="tag">explained</span></h3>
+      <div class="explain" id="explain">Waiting for the first decision.</div>
+    </div>
+    <div class="card">
+      <h3>Decision and message log <span class="tag" id="modeTag">adaptive</span></h3>
+      <div class="controls" style="margin:0 0 10px">
+        <button class="btn" id="btnMode">Switch to fixed timer</button>
+        <button class="btn" id="btnReset">Reset counters</button>
+      </div>
+      <div class="log" id="log"></div>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3>Live junction <span class="phase" id="phase">phase <b>NS</b> · 0 s</span></h3>
+      <div class="junction-view">
+        <div class="approach" data-ap="N"><div class="top"><span class="name">North</span><span class="head"><b class="r"></b><b class="a"></b><b class="g"></b></span><span class="src">simulated</span></div><div class="bar"><i></i></div><div class="nums"><span class="q">queue 0</span><span class="w">max wait 0 s</span></div></div>
+        <div class="approach" data-ap="S"><div class="top"><span class="name">South</span><span class="head"><b class="r"></b><b class="a"></b><b class="g"></b></span><span class="src">simulated</span></div><div class="bar"><i></i></div><div class="nums"><span class="q">queue 0</span><span class="w">max wait 0 s</span></div></div>
+        <div class="approach" data-ap="E"><div class="top"><span class="name">East</span><span class="head"><b class="r"></b><b class="a"></b><b class="g"></b></span><span class="src">simulated</span></div><div class="bar"><i></i></div><div class="nums"><span class="q">queue 0</span><span class="w">max wait 0 s</span></div></div>
+        <div class="approach" data-ap="W"><div class="top"><span class="name">West</span><span class="head"><b class="r"></b><b class="a"></b><b class="g"></b></span><span class="src">simulated</span></div><div class="bar"><i></i></div><div class="nums"><span class="q">queue 0</span><span class="w">max wait 0 s</span></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Performance since start</h3>
+      <div class="kpis">
+        <div class="kpi"><div class="v" id="kAvg">0.0 s</div><small>avg wait per vehicle</small></div>
+        <div class="kpi"><div class="v" id="kServed">0</div><small>vehicles served</small></div>
+        <div class="kpi"><div class="v" id="kSwitch">0</div><small>phase switches</small></div>
+        <div class="kpi"><div class="v" id="kAmb">0</div><small>ambulances cleared</small></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Corridor link <span class="tag" id="linkTag">channel: greenwave</span></h3>
+      <p class="hint" id="linkText">Junction A sends its released platoons and any ambulance alert to Junction B, 400 m east. Open Junction B in a second tab to see it react. In the pilot this channel is MQTT on the city network.</p>
+      <div class="mini" style="margin-top:10px"><div>neighbour<b id="nbName">—</b></div><div>last message<b id="nbLast">—</b></div><div>platoons sent<b id="nbSent">0</b></div><div>alerts<b id="nbAlerts">0</b></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= CONTROL ROOM ======================= -->
+<div id="viewControl" class="grid" style="display:none">
+  <div class="card">
+    <h3>Corridor map <span class="tag">live</span></h3>
+    <div class="map"><svg viewBox="0 0 1000 220" id="mapSvg">
+      <rect x="0" y="95" width="1000" height="30" fill="#1b2640"/>
+      <line x1="0" y1="110" x2="1000" y2="110" stroke="#4f6190" stroke-width="2" stroke-dasharray="14 10"/>
+      <rect x="235" y="0" width="30" height="220" fill="#1b2640"/><rect x="735" y="0" width="30" height="220" fill="#1b2640"/>
+      <g id="mapA"><circle cx="250" cy="110" r="26" fill="#2a3a5e" stroke="#ffb347" stroke-width="3"/><text x="250" y="116" text-anchor="middle" font-family="Syne" font-weight="800" font-size="18" fill="#fff">A</text><text x="250" y="170" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#c2cce0" id="mapAtxt">waiting</text></g>
+      <g id="mapB"><circle cx="750" cy="110" r="26" fill="#2a3a5e" stroke="#ffb347" stroke-width="3"/><text x="750" y="116" text-anchor="middle" font-family="Syne" font-weight="800" font-size="18" fill="#fff">B</text><text x="750" y="170" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#c2cce0" id="mapBtxt">waiting</text></g>
+      <text x="500" y="60" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#c2cce0">400 m · westbound → eastbound</text>
+      <g id="movers"></g>
+    </svg></div>
+  </div>
+  <div class="grid" style="grid-template-columns:1fr 1fr">
+    <div class="jbox" id="boxA"><h4>Junction A <span class="st">no data</span></h4><div class="mini"><div>N<b>0</b></div><div>S<b>0</b></div><div>E<b>0</b></div><div>W<b>0</b></div></div><p class="hint">—</p></div>
+    <div class="jbox" id="boxB"><h4>Junction B <span class="st">no data</span></h4><div class="mini"><div>N<b>0</b></div><div>S<b>0</b></div><div>E<b>0</b></div><div>W<b>0</b></div></div><p class="hint">—</p></div>
+  </div>
+  <div class="grid" style="grid-template-columns:1fr 1fr">
+    <div class="card"><h3>Corridor totals <span class="tag">both junctions</span></h3><div class="kpis"><div class="kpi"><div class="v" id="cAvg">0.0 s</div><small>corridor avg wait</small></div><div class="kpi"><div class="v" id="cServed">0</div><small>vehicles served</small></div><div class="kpi"><div class="v" id="cMsgs">0</div><small>messages exchanged</small></div><div class="kpi"><div class="v" id="cAmb">0</div><small>ambulances cleared</small></div></div></div>
+    <div class="card"><h3>Average wait over time <span class="tag">last 3 minutes</span></h3><div class="chart"><canvas id="chart"></canvas></div><div class="legend"><span><i style="background:#ffb347"></i>Junction A</span><span><i style="background:#5aa0ff"></i>Junction B</span><span><i style="background:#ff4d4f"></i>ambulance</span></div></div>
+  </div>
+  <div class="card"><h3>Event feed</h3><div class="log" id="feed"></div></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
+<script>
+(function(){
+'use strict';
+// ---------------------------------------------------------------- roles and routing
+const hash=location.hash||'#junction=A';
+const ROLE=hash.startsWith('#control')?'control':(hash.includes('=B')?'B':'A');
+const NEIGHBOUR={A:'B',B:'A'}[ROLE];
+const LINK_M=400, LINK_SPEED=11; // metres, m/s (about 40 km/h)
+document.getElementById('roleLabel').textContent=ROLE==='control'?'Control room':'Junction '+ROLE+(ROLE==='A'?' · camera':'');
+document.getElementById('navA').classList.toggle('cur',ROLE==='A');document.getElementById('navB').classList.toggle('cur',ROLE==='B');document.getElementById('navC').classList.toggle('cur',ROLE==='control');
+addEventListener('hashchange',()=>location.reload());
+const $=id=>document.getElementById(id);
+const bc=('BroadcastChannel' in window)?new BroadcastChannel('greenwave'):null;
+function send(msg){msg.from=ROLE;msg.t=Date.now();if(bc)bc.postMessage(msg);}
+const fmt=t=>new Date(t).toLocaleTimeString('en-IN',{hour12:false});
+function addLog(el,cls,text,t){const e=document.createElement('div');e.className='e '+cls;e.innerHTML=`<time>${fmt(t||Date.now())}</time><div>${text}</div>`;el.prepend(e);while(el.children.length>80)el.lastChild.remove();}
+
+// ---------------------------------------------------------------- CONTROL ROOM
+if(ROLE==='control'){
+  $('viewJunction').style.display='none';$('viewControl').style.display='grid';
+  const feed=$('feed');const state={A:null,B:null};const movers=[];let msgs=0;const hist={A:[],B:[]};const ambMarks=[];
+  function totals(){const a=state.A,b=state.B;const served=(a?a.served:0)+(b?b.served:0);const wsum=(a?a.avg*a.served:0)+(b?b.avg*b.served:0);$('cAvg').textContent=(served?wsum/served:0).toFixed(1)+' s';$('cServed').textContent=served;$('cMsgs').textContent=msgs;$('cAmb').textContent=(a?a.amb||0:0)+(b?b.amb||0:0);}
+  function chart(){const c=$('chart');const W=c.clientWidth*devicePixelRatio,H=c.clientHeight*devicePixelRatio;if(c.width!==W){c.width=W;c.height=H;}const g=c.getContext('2d');g.clearRect(0,0,W,H);const now=Date.now(),span=180000;const all=[...hist.A,...hist.B];const max=Math.max(10,...all.map(p=>p.v))*1.15;g.strokeStyle='rgba(255,255,255,.08)';g.lineWidth=1;for(let i=1;i<4;i++){const y=H-H*i/4;g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke();g.fillStyle='#c2cce0';g.font=`${11*devicePixelRatio}px JetBrains Mono`;g.fillText((max*i/4).toFixed(0)+' s',6*devicePixelRatio,y-4);}
+    ambMarks.forEach(t=>{const x=W*(1-(now-t)/span);if(x<0)return;g.strokeStyle='#ff4d4f';g.setLineDash([6,6]);g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke();g.setLineDash([]);});
+    [['A','#ffb347'],['B','#5aa0ff']].forEach(([k,col])=>{const pts=hist[k].filter(p=>now-p.t<span);if(pts.length<2)return;g.strokeStyle=col;g.lineWidth=2.5*devicePixelRatio;g.beginPath();pts.forEach((p,i)=>{const x=W*(1-(now-p.t)/span),y=H-H*p.v/max;i?g.lineTo(x,y):g.moveTo(x,y);});g.stroke();});}
+  setInterval(()=>{totals();chart();},1000);
+  function paintBox(id){const s=state[id];const box=$('box'+id);if(!s)return;box.querySelector('.st').textContent=`phase ${s.phase}${s.amber?' (amber)':''} · ${s.tPhase}s · ${s.mode}${s.preempt?' · AMBULANCE':''}`;const m=box.querySelectorAll('.mini b');['N','S','E','W'].forEach((k,i)=>m[i].textContent=s.q[k]);box.querySelector('.hint').textContent=`avg wait ${s.avg}s · served ${s.served} · ${s.cam?'camera on '+s.cam:'simulated inputs'}`;
+    $('map'+id+'txt').textContent=(s.preempt?'AMBULANCE · ':'')+s.phase+' '+(s.amber?'amber':'green');$('map'+id).querySelector('circle').setAttribute('stroke',s.preempt?'#ff4d4f':(s.amber?'#ffc53d':'#38e58f'));}
+  if(bc)bc.onmessage=ev=>{const m=ev.data;if(m.type==='state'){state[m.from]=m;paintBox(m.from);hist[m.from].push({t:m.t,v:+m.avg});if(hist[m.from].length>400)hist[m.from].shift();}
+    else if(m.type==='platoon'){msgs++;addLog(feed,'msg',`<b>${m.from} → ${m.to}</b> platoon of ${m.count} released, arrives in ~${m.eta}s`,m.t);movers.push({kind:'platoon',from:m.from,t0:m.t,eta:m.eta*1000,n:m.count});}
+    else if(m.type==='ambulance'){msgs++;ambMarks.push(m.t);addLog(feed,'amb',`<b>🚑 ${m.from} → ${m.to}</b> ambulance alert, ETA ${m.eta}s. ${m.to} must pre-clear its ${m.phase} green.`,m.t);movers.push({kind:'amb',from:m.from,t0:m.t,eta:m.eta*1000});}
+    else if(m.type==='ack'){msgs++;addLog(feed,'msg',`<b>${m.from}</b> ${m.text}`,m.t);}
+    else if(m.type==='log'){addLog(feed,m.cls,`<b>${m.from}</b> ${m.text}`,m.t);}};
+  setInterval(()=>{const g=$('movers');g.innerHTML='';const now=Date.now();for(let i=movers.length-1;i>=0;i--){const mv=movers[i];const k=(now-mv.t0)/mv.eta;if(k>1.05){movers.splice(i,1);continue;}const x=mv.from==='A'?250+500*Math.min(1,k):750-500*Math.min(1,k);const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('cx',x);c.setAttribute('cy',mv.kind==='amb'?102:118);c.setAttribute('r',mv.kind==='amb'?9:6);c.setAttribute('fill',mv.kind==='amb'?'#ff4d4f':'#5aa0ff');g.appendChild(c);if(mv.kind==='amb'){const t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',x);t.setAttribute('y',88);t.setAttribute('text-anchor','middle');t.setAttribute('font-size','16');t.textContent='🚑';g.appendChild(t);}}},100);
+  addLog(feed,'msg','Control room open. Waiting for junction tabs.');
+  return;
+}
+
+// ---------------------------------------------------------------- JUNCTION CONTROLLER
+const AP=['N','S','E','W'], AXIS={N:'NS',S:'NS',E:'EW',W:'EW'};
+const rates=ROLE==='A'?{N:.30,S:.30,E:.12,W:.10}:{N:.28,S:.28,E:.10,W:.12};
+const lanes={};AP.forEach(k=>lanes[k]={q:[],acc:0,camCount:null});
+let phase='NS',tPhase=0,amber=0,mode='adaptive',totalWait=0,served=0,switches=0,ambCleared=0,preempt=null,incoming=null,log=$('log');
+const MIN=8,MAX=45,FIXED=30,AMB=2.5,SAT=1.1;
+let camApproach='W';
+function queue(k){const l=lanes[k];return l.camCount!=null?Math.max(l.camCount,l.q.length):l.q.length;}
+function maxWait(k){return lanes[k].q.reduce((m,v)=>Math.max(m,v.w),0);}
+function explain(text){$('explain').innerHTML=text;}
+function note(cls,text){addLog(log,cls,text);send({type:'log',cls,text});}
+let lastReason='',switchReason='';
+function step(dt){
+  // arrivals (simulated), camera-fed approach gets real counts added on top
+  AP.forEach(k=>{if(Math.random()<rates[k]*dt)lanes[k].q.push({w:0});});
+  tPhase+=dt;
+  const qNS=queue('N')+queue('S'),qEW=queue('E')+queue('W');
+  // incoming ambulance: pre-clear before ETA
+  if(incoming){incoming.eta-=dt;$('alertEta').textContent=Math.max(0,Math.ceil(incoming.eta))+' s';
+    if(incoming.eta<=12&&!preempt){preempt={axis:incoming.axis,src:'incoming',hold:incoming.eta+8};note('amb',`Pre-clearing <b>${incoming.axis}</b> green for incoming ambulance from ${incoming.from} (ETA ${Math.ceil(incoming.eta)} s).`);send({type:'ack',text:`pre-clearing ${incoming.axis} green, ambulance from ${incoming.from} due in ${Math.ceil(incoming.eta)} s`});}
+    if(incoming.eta<=-6){incoming=null;$('alert').classList.remove('show');}}
+  if(preempt){preempt.hold-=dt;if(preempt.hold<=0){note('amb',`Ambulance cleared through <b>${preempt.axis}</b>. Normal control resumes.`);ambCleared++;preempt=null;}}
+  // decide
+  let want=phase;
+  if(preempt)want=preempt.axis;
+  else if(mode==='fixed'){if(tPhase>=FIXED)want=phase==='NS'?'EW':'NS';}
+  else{const cur=phase==='NS'?qNS:qEW,oth=phase==='NS'?qEW:qNS;const starve=Math.max(...AP.filter(k=>AXIS[k]!==phase).map(maxWait));
+    if(tPhase>=MIN&&(oth>cur+1||(cur===0&&oth>0)||tPhase>=MAX||starve>75)){want=phase==='NS'?'EW':'NS';
+      switchReason=starve>75?`the ${phase==='NS'?'east–west':'north–south'} queue has waited ${Math.round(starve)} s (fairness limit 75 s)`:(tPhase>=MAX?`maximum green of ${MAX} s reached`:`the other axis has the longer queue (${oth} vs ${cur})`);}
+    else if(tPhase>=MIN&&cur>0){lastReason=`${phase==='NS'?'north–south':'east–west'} still has ${cur} waiting against ${oth}; holding green`;}}
+  if(amber>0){amber-=dt;if(amber<=0){phase=phase==='NS'?'EW':'NS';tPhase=0;switches++;const why=preempt?`<b>Ambulance priority.</b> Switched to <b>${phase}</b> so the ambulance never meets a red.`:(mode==='fixed'?`<b>Switched to ${phase}.</b> Fixed timer: ${FIXED} s each way, whatever the queues.`:`<b>Switched to ${phase}.</b> Reason: ${switchReason||'scheduled change'}.`);explain(why);note(preempt?'amb':'decide',why);}}
+  else if(want!==phase){amber=AMB;}
+  else if(mode==='adaptive'&&!preempt&&tPhase>MIN&&Math.floor(tPhase)%5===0&&lastReason)explain(`<b>Holding ${phase} green.</b> ${lastReason}.`);
+  // service
+  const green=ax=>amber<=0&&phase===ax;
+  AP.forEach(k=>{const l=lanes[k];const g=green(AXIS[k]);l.acc=g?l.acc+dt:0;while(g&&l.acc>=SAT&&l.q.length){l.acc-=SAT;const v=l.q.shift();totalWait+=v.w;served++;l.released=(l.released||0)+1;}l.q.forEach(v=>v.w+=dt);});
+  // platoon messages: when EW green ends at A (eastbound) or at B (westbound), tell the neighbour
+  if(amber>0&&amber<=dt+.001&&phase==='EW'){const outLane=ROLE==='A'?'W':'E';const n=lanes[outLane].released||0;if(n>0){const eta=Math.round(LINK_M/LINK_SPEED);send({type:'platoon',to:NEIGHBOUR,count:n,eta});$('nbSent').textContent=+$('nbSent').textContent+1;$('nbLast').textContent='platoon '+n;note('msg',`Sent to ${NEIGHBOUR}: platoon of ${n} released, arriving in ~${eta} s.`);}AP.forEach(k=>lanes[k].released=0);}
+}
+function paint(){
+  AP.forEach(k=>{const el=document.querySelector(`.approach[data-ap="${k}"]`);const q=queue(k);el.querySelector('.bar i').style.width=Math.min(100,q*7)+'%';el.querySelector('.q').textContent='queue '+q;el.querySelector('.w').textContent='max wait '+Math.round(maxWait(k))+' s';
+    const st=amber>0?(phase===AXIS[k]?'a':'r'):(phase===AXIS[k]?'g':'r');const b=el.querySelectorAll('.head b');b[0].className=st==='r'?'on-r':'';b[1].className=st==='a'?'on-a':'';b[2].className=st==='g'?'on-g':'';
+    el.querySelector('.src').textContent=lanes[k].camCount!=null?'camera':'simulated';});
+  $('phase').innerHTML=`phase <b>${phase}</b> · ${Math.round(tPhase)} s${amber>0?' · amber':''}${preempt?' · <span style="color:var(--red)">AMBULANCE</span>':''}`;
+  $('kAvg').textContent=(served?totalWait/served:0).toFixed(1)+' s';$('kServed').textContent=served;$('kSwitch').textContent=switches;$('kAmb').textContent=ambCleared;
+}
+let last=performance.now();
+setInterval(()=>{const now=performance.now();let dt=Math.max(0,Math.min(2,(now-last)/1000));last=now;while(dt>0){const h=Math.min(.1,dt);step(h);dt-=h;}paint();},100);
+setInterval(()=>{const q={};AP.forEach(k=>q[k]=queue(k));send({type:'state',phase,tPhase:Math.round(tPhase),amber:amber>0,mode,preempt:!!preempt,q,avg:(served?totalWait/served:0).toFixed(1),served,amb:ambCleared,cam:lanes[camApproach].camCount!=null?camApproach:null});},1000);
+// neighbour messages
+if(bc)bc.onmessage=ev=>{const m=ev.data;if(m.from===ROLE)return;
+  if(m.type==='state'){$('nbName').textContent='Junction '+m.from;}
+  else if(m.type==='platoon'&&m.to===ROLE){$('nbLast').textContent='platoon '+m.count+' in';note('msg',`From ${m.from}: platoon of ${m.count} arriving in ~${m.eta} s on the ${ROLE==='A'?'east':'west'} approach. Planning EW green for arrival.`);const inLane=ROLE==='A'?'E':'W';setTimeout(()=>{for(let i=0;i<m.count;i++)lanes[inLane].q.push({w:0});},m.eta*1000);
+    // schedule: bias controller to EW around arrival
+    setTimeout(()=>{if(!preempt&&phase==='NS'&&tPhase>=MIN)amber=amber||AMB;},Math.max(0,(m.eta-4)*1000));}
+  else if(m.type==='ambulance'&&m.to===ROLE){incoming={from:m.from,eta:m.eta,axis:m.phase};$('alertTitle').textContent='Ambulance incoming from Junction '+m.from;$('alertSub').textContent=`${ROLE==='A'?'Westbound':'Eastbound'} on the ${m.phase} axis. Pre-clearing green 12 s before arrival.`;$('alert').classList.add('show');$('nbAlerts').textContent=+$('nbAlerts').textContent+1;$('nbLast').textContent='AMBULANCE';note('amb',`<b>Alert from ${m.from}:</b> ambulance arriving in ${m.eta} s on the ${m.phase} axis.`);}
+  else if(m.type==='ack'){note('msg',`${m.from} acknowledged: ${m.text}`);}};
+// local ambulance detected at this junction
+function ambulanceDetected(approach,source){if(preempt&&preempt.src==='local')return;const axis=AXIS[approach];preempt={axis,src:'local',hold:14};
+  $('nbAlerts').textContent=+$('nbAlerts').textContent+1;const eta=Math.round(LINK_M/LINK_SPEED)+10;
+  note('amb',`<b>Ambulance detected on the ${approach} approach</b> (${source}). Protected <b>${axis}</b> green for 14 s.`);explain(`<b>Ambulance priority.</b> Detected on the ${approach} approach by ${source}. Holding ${axis} green and alerting Junction ${NEIGHBOUR}, which will pre-clear its ${axis} green before the ambulance arrives in about ${eta} s.`);
+  send({type:'ambulance',to:NEIGHBOUR,phase:axis,eta,approach});
+  if(phase!==axis&&amber<=0)amber=AMB;}
+$('btnAmb').onclick=()=>ambulanceDetected(camApproach,'test button');
+let demoRunning=false;$('btnDemo').onclick=async()=>{if(demoRunning)return;demoRunning=true;const b=$('btnDemo');const say=(t,sec)=>{b.textContent=`Demo · ${t} (${sec}s)`;note('decide',`<b>Demo:</b> ${t}`);};
+  if(mode!=='adaptive')$('btnMode').click();if(!detecting&&!stream){srcSel.value='sample';$('btnCam').click();}
+  say('feed running, adaptive control, queues building',0);await new Promise(r=>setTimeout(r,20000));
+  say('ambulance appears on the camera approach',20);ambulanceDetected(camApproach,'demo');await new Promise(r=>setTimeout(r,25000));
+  say('switching to the old fixed timer to compare',45);if(mode==='adaptive')$('btnMode').click();await new Promise(r=>setTimeout(r,15000));
+  if(mode!=='adaptive')$('btnMode').click();say('back to adaptive. Demo complete',60);setTimeout(()=>{b.textContent='Run 60-second demo';demoRunning=false;},3000);};
+$('btnMode').onclick=()=>{mode=mode==='adaptive'?'fixed':'adaptive';$('modeTag').textContent=mode;$('btnMode').textContent=mode==='adaptive'?'Switch to fixed timer':'Switch to adaptive';note('decide',`Controller mode: <b>${mode}</b>.`);};
+$('btnReset').onclick=()=>{totalWait=0;served=0;switches=0;ambCleared=0;note('decide','Counters reset.');};
+$('camApproach').onchange=e=>{lanes[camApproach].camCount=null;camApproach=e.target.value;note('cam',`Camera now feeds the <b>${camApproach}</b> approach.`);};
+
+// ---------------------------------------------------------------- CAMERA + DETECTION
+const video=$('video'),draw=$('draw'),ctx=draw.getContext('2d');let model=null,stream=null,detecting=false,ambStreak=0;
+const VEH=new Set(['car','truck','bus','motorcycle','bicycle']);
+async function listCams(){try{const d=await navigator.mediaDevices.enumerateDevices();const sel=$('camSel');sel.innerHTML='';d.filter(x=>x.kind==='videoinput').forEach((x,i)=>{const o=document.createElement('option');o.value=x.deviceId;o.textContent=x.label||('Camera '+(i+1));sel.appendChild(o);});}catch(e){}}
+listCams();
+async function loadModel(){try{model=await cocoSsd.load({base:'lite_mobilenet_v2'});$('pillModel').textContent='model: ready';$('pillModel').classList.add('live');}catch(e){$('pillModel').textContent='model: offline';$('pillModel').classList.add('warn');$('offline').style.display='block';$('offline').textContent='The detection model could not download (internet needed on first run). Camera will show, counts stay simulated. '+e.message;}}
+loadModel().then(()=>{if(location.hash.includes('auto')&&ROLE!=='control'){srcSel.value='sample';$('btnCam').click();}});
+const srcSel=$('srcSel'),fileIn=$('fileIn');
+const ytUrl=$('ytUrl'),libSel=$('libSel');
+async function refreshLib(){try{const r=await fetch('/api/videos');const j=await r.json();libSel.innerHTML='';j.files.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;libSel.appendChild(o);});}catch(e){}}
+refreshLib();
+srcSel.onchange=()=>{$('camSel').style.display=srcSel.value==='webcam'?'':'none';ytUrl.style.display=srcSel.value==='youtube'?'':'none';libSel.style.display=srcSel.value==='library'?'':'none';if(srcSel.value==='library')refreshLib();};
+async function fetchYouTube(url){$('camTag').textContent='downloading 0%';note('cam','Downloading the YouTube video on the local server.');for(;;){const r=await fetch('/api/fetch?url='+encodeURIComponent(url));const j=await r.json();if(j.status==='done'){await refreshLib();return j.file;}if(j.status==='error')throw new Error(j.msg);$('camTag').textContent='downloading '+Math.round(j.pct||0)+'%';await new Promise(r=>setTimeout(r,1500));}}
+function stopFeed(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}video.pause();video.removeAttribute('src');video.srcObject=null;video.load();detecting=false;lanes[camApproach].camCount=null;$('btnCam').textContent='Start feed';$('camTag').textContent='stopped';}
+async function startVideo(src,label){video.srcObject=null;video.src=src;video.loop=true;video.muted=true;try{await video.play();}catch(e){/* background tab or autoplay: resumes on visibility */}$('btnCam').textContent='Stop feed';$('camTag').textContent='live · '+label;note('cam',`Feed started (${label}). Feeding the <b>${camApproach}</b> approach.`);detecting=true;detectLoop();}
+video.addEventListener('pause',()=>{if(detecting&&!stream&&!video.ended)setTimeout(()=>video.play().catch(()=>{}),300);});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&detecting&&!stream)video.play().catch(()=>{});});
+fileIn.onchange=async()=>{const f=fileIn.files[0];if(!f)return;try{await startVideo(URL.createObjectURL(f),f.name);}catch(e){$('camTag').textContent='failed';note('cam','Could not play that file: '+e.message);}};
+$('btnCam').onclick=async()=>{if(detecting||stream){stopFeed();return;}
+  const kind=srcSel.value;
+  try{
+    if(kind==='webcam'){const id=$('camSel').value;stream=await navigator.mediaDevices.getUserMedia({video:id?{deviceId:{exact:id},width:{ideal:1280}}:{width:{ideal:1280}},audio:false});video.src='';video.srcObject=stream;await video.play();listCams();$('btnCam').textContent='Stop feed';$('camTag').textContent='live · webcam';note('cam','Webcam started. Feeding the <b>'+camApproach+'</b> approach.');detecting=true;detectLoop();}
+    else if(kind==='file'){fileIn.value='';fileIn.click();}
+    else if(kind==='youtube'){const u=ytUrl.value.trim();if(!u){$('camTag').textContent='paste a link first';return;}const f=await fetchYouTube(u);await startVideo('videos/'+encodeURIComponent(f),f);}
+    else if(kind==='library'){const f=libSel.value;if(!f){$('camTag').textContent='no downloaded videos yet';return;}await startVideo('videos/'+encodeURIComponent(f),f);}
+    else{await startVideo('videos/junction_sample.mp4','sample CCTV clip');}
+  }catch(e){$('camTag').textContent='blocked';$('offline').style.display='block';$('offline').textContent='Feed failed: '+e.message+'. Start the app with run.bat (it runs the local server that downloads videos). For the webcam, allow the camera when asked.';}};
+function isAmbulance(box){const [x,y,w,h]=box;if(w<40||h<40)return false;const c=document.createElement('canvas');c.width=32;c.height=32;const g=c.getContext('2d');g.drawImage(video,x,y,w,h,0,0,32,32);const d=g.getImageData(0,0,32,32).data;let white=0,red=0;for(let i=0;i<d.length;i+=4){const r=d[i],gg=d[i+1],b=d[i+2];if(r>170&&gg>170&&b>170)white++;else if(r>140&&gg<90&&b<90)red++;}const n=d.length/4;return white/n>.35&&red/n>.06;}
+async function detectLoop(){if(!detecting)return;const t0=performance.now();
+  if(model&&video.readyState>=2){let preds=[];try{preds=await model.detect(video,10,.45);}catch(e){}
+    if(draw.width!==video.videoWidth){draw.width=video.videoWidth;draw.height=video.videoHeight;}
+    ctx.clearRect(0,0,draw.width,draw.height);let count=0,amb=false;const mix={};
+    preds.forEach(p=>{if(!VEH.has(p.class))return;count++;mix[p.class]=(mix[p.class]||0)+1;const a=isAmbulance(p.bbox);if(a)amb=true;const [x,y,w,h]=p.bbox;ctx.lineWidth=3;ctx.strokeStyle=a?'#ff4d4f':'#38e58f';ctx.strokeRect(x,y,w,h);ctx.fillStyle=a?'#ff4d4f':'#38e58f';ctx.font='bold 16px Manrope, sans-serif';const label=(a?'AMBULANCE? ':'')+p.class+' '+Math.round(p.score*100)+'%';const tw=ctx.measureText(label).width+10;ctx.fillRect(x,Math.max(0,y-22),tw,22);ctx.fillStyle='#0b1020';ctx.fillText(label,x+5,Math.max(16,y-6));});
+    const l=lanes[camApproach];l.camCount=l.camCount==null?count:Math.round(l.camCount*.6+count*.4);$('pillCount').textContent=count+' vehicles';$('pillMix').textContent=Object.entries(mix).map(([k,v])=>v+' '+k).join(' · ')||'—';
+    ambStreak=amb?ambStreak+1:0;if(ambStreak===3)ambulanceDetected(camApproach,'camera');}
+  const dt=performance.now()-t0;$('pillFps').textContent=(1000/Math.max(dt,1)).toFixed(0)+' fps';
+  setTimeout(detectLoop,Math.max(0,150-dt));}
+note('decide',`Junction ${ROLE} online in <b>adaptive</b> mode. Min green ${MIN} s, max ${MAX} s, amber ${AMB} s, fairness limit 75 s.`);
+})();
+</script>
+</body>
+</html>

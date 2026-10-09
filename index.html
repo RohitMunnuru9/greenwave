@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GreenWave · Every signal. A smoother city.</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{--bg:#fbfaf6;--ink:#2b1a3f;--purple:#3b1d5a;--green:#1f9d55;--green-dk:#0f6e3a;--mute:#6b6478;--line:#e7e2ee;--card:#ffffff;
+--coral:#ffe1dc;--coral-dk:#e8553e;--yellow:#fff0b8;--yellow-dk:#c98a00;--lav:#e6dcff;--lav-dk:#6a3fc8;--mint:#d7f5e5;--mint-dk:#157a44;--sky:#dbeeff;--sky-dk:#1d6fd1;--rose:#ffe0ec;--rose-dk:#c2366f;
+--red:#e8553e;--amber:#f2b705;--grn:#1f9d55;--display:'Nunito',sans-serif;--body:'Manrope',sans-serif;--mono:'JetBrains Mono',monospace;color-scheme:light}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;padding-inline:0}
+a{color:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:20px}
+nav.top{position:sticky;top:0;z-index:40;background:rgba(251,250,246,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;align-items:center;gap:18px;height:66px}
+.logo{font-family:var(--display);font-weight:900;font-size:24px;color:var(--green);line-height:1;text-decoration:none}
+.logo b{color:var(--purple)}.logo small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--mute);margin-top:3px;font-weight:500}
+.pillnav{margin-left:auto;display:flex;gap:4px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px}
+.pillnav a{text-decoration:none;padding:8px 14px;border-radius:999px;font-weight:600;font-size:14px}
+.pillnav a.cur{background:var(--purple);color:#fff}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:10px 18px;font:inherit;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;text-decoration:none}
+.btn.primary{background:var(--green);border-color:var(--green);color:#fff}.btn.purple{background:var(--purple);border-color:var(--purple);color:#fff}.btn.danger{background:var(--red);border-color:var(--red);color:#fff}
+.btn:disabled{opacity:.5;cursor:default}
+select,input[type=url]{font:inherit;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-weight:600;font-size:13px}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:34px;align-items:center;padding:44px 0 30px}
+.hero h1{font-family:var(--display);font-weight:900;font-size:58px;line-height:1.02;margin:0 0 14px;letter-spacing:-.01em;color:var(--purple)}
+.hero p{font-size:19px;color:var(--ink);max-width:36ch;margin:0 0 22px}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.hero .note{margin-top:16px;font-size:14px;color:var(--mute);display:flex;align-items:center;gap:8px}
+.stage{position:relative;background:linear-gradient(160deg,#eaf7ee,#dbeeff 60%,#fff);border-radius:28px;padding:18px;border:1px solid var(--line);box-shadow:0 20px 50px rgba(59,29,90,.08)}
+.stage .live{position:absolute;left:18px;top:14px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--green-dk);background:#fff;border-radius:999px;padding:5px 10px;border:1px solid var(--line)}
+.stage .tagline{position:absolute;right:22px;top:12px;font-family:var(--display);font-weight:800;color:var(--green);transform:rotate(-5deg)}
+.junction{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:30px}
+.ap{background:#fff;border-radius:16px;padding:12px 14px;border:1px solid var(--line)}
+.ap .t{display:flex;align-items:center;gap:8px}.ap .n{font-family:var(--display);font-weight:800}.ap .src{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--mute);text-transform:uppercase}
+.head{display:inline-flex;gap:4px;padding:4px 6px;border-radius:999px;background:#2b1a3f}
+.head b{width:10px;height:10px;border-radius:50%;background:#5a4a70;display:block}
+.head b.on-r{background:#ff6b57;box-shadow:0 0 8px #ff6b57}.head b.on-a{background:#ffd23f;box-shadow:0 0 8px #ffd23f}.head b.on-g{background:#3ddc84;box-shadow:0 0 8px #3ddc84}
+.bar{height:9px;border-radius:5px;background:#eee9f3;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--amber),var(--red));transition:width .4s}
+.ap .nums{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--mute);margin-top:6px}
+.phase{font-family:var(--mono);font-size:12px;color:var(--mute);letter-spacing:.08em;text-transform:uppercase}.phase b{color:var(--ink)}
+.features{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin:12px 0 26px}
+.feat{border-radius:18px;padding:0;overflow:hidden;border:0;cursor:pointer;text-align:left;font:inherit;background:var(--c);color:var(--ink);box-shadow:0 10px 24px rgba(59,29,90,.06);transition:transform .2s}
+.feat:hover,.feat:focus-visible{transform:translateY(-3px);outline:2px solid var(--purple)}
+.feat .pic{height:96px;display:grid;place-items:center;font-size:40px;background:rgba(255,255,255,.45)}
+.feat .txt{padding:14px 14px 16px}.feat h3{font-family:var(--display);font-weight:800;font-size:17px;margin:0 0 4px;display:flex;align-items:center;gap:8px}
+.feat h3 span{margin-left:auto;width:24px;height:24px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:12px}
+.feat p{margin:0;font-size:13px;color:var(--ink)}.feat .st{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--mute);margin-top:8px;text-transform:uppercase}
+section.seg{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px;margin-bottom:20px;scroll-margin-top:84px}
+section.seg.active{outline:3px solid var(--green)}
+.seg-h{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.seg-h .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:var(--c)}
+.seg-h h2{font-family:var(--display);font-weight:900;font-size:26px;margin:0;color:var(--purple)}
+.seg-h p{margin:0;color:var(--mute);font-size:14px}
+.seg-h .tag{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);white-space:nowrap}
+.two{display:grid;grid-template-columns:1.2fr 1fr;gap:20px;align-items:start}
+.video-wrap{position:relative;background:#1b1430;border-radius:16px;overflow:hidden;aspect-ratio:16/9}
+.video-wrap video,.video-wrap canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.video-wrap .overlay{position:absolute;left:12px;top:12px;display:flex;gap:6px;flex-wrap:wrap}
+.pill{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.9);color:var(--ink);border:1px solid var(--line)}
+.pill.live{color:var(--green-dk);border-color:var(--green)}.pill.warn{color:var(--yellow-dk);border-color:var(--amber)}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.lbl{font-size:11px;color:var(--mute);font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase}
+table.t{width:100%;border-collapse:collapse;font-size:14px}table.t th{text-align:left;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);padding:8px 10px;border-bottom:1px solid var(--line)}table.t td{padding:9px 10px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}table.t tr.cur td{background:var(--mint)}
+.explain{background:var(--mint);border-radius:14px;padding:14px 16px;font-size:15px;line-height:1.5}.explain b{color:var(--mint-dk)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.kpi{background:var(--c,#f6f3fb);border-radius:14px;padding:14px}.kpi .v{font-family:var(--display);font-weight:900;font-size:28px;font-variant-numeric:tabular-nums;line-height:1}.kpi small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--mute);text-transform:uppercase;margin-top:6px}
+.log{max-height:260px;overflow:auto;font-size:13px;display:flex;flex-direction:column;gap:6px}
+.log .e{display:grid;grid-template-columns:62px 1fr;gap:10px;padding:8px 10px;border-radius:10px;background:#f6f3fb;border-left:3px solid var(--line)}.log .e time{font-family:var(--mono);font-size:11px;color:var(--mute)}
+.log .e.decide{border-left-color:var(--green)}.log .e.amb{border-left-color:var(--red);background:var(--coral)}.log .e.msg{border-left-color:var(--sky-dk)}.log .e.cam{border-left-color:var(--amber)}.log .e.learn{border-left-color:var(--lav-dk);background:var(--lav)}
+.alert{display:none;align-items:center;gap:14px;padding:14px 18px;border-radius:16px;background:var(--coral);border:2px solid var(--red);margin:10px 0 16px}
+.alert.show{display:flex;animation:blink 1s infinite}.alert .big{font-family:var(--display);font-weight:900;font-size:18px}.alert .eta{font-family:var(--mono);font-size:28px;margin-left:auto}
+@keyframes blink{0%,100%{box-shadow:0 0 0 0 rgba(232,85,62,0)}50%{box-shadow:0 0 0 6px rgba(232,85,62,.25)}}
+.map{position:relative;height:200px;border-radius:16px;background:linear-gradient(180deg,#eaf7ee,#dbeeff);border:1px solid var(--line);overflow:hidden}.map svg{width:100%;height:100%}
+.chain{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}
+.node{background:#f6f3fb;border-radius:16px;padding:14px;border:1px solid var(--line)}.node h4{margin:0 0 6px;font-family:var(--display);font-weight:800}.node .s{font-family:var(--mono);font-size:12px;color:var(--mute)}.node.hot{background:var(--coral);border-color:var(--red)}
+.chart{height:180px;border-radius:14px;background:#f6f3fb;border:1px solid var(--line)}.chart canvas{width:100%;height:100%;display:block}
+.legend{display:flex;gap:16px;font-family:var(--mono);font-size:11px;color:var(--mute);margin-top:6px}.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.how{background:var(--purple);color:#fff;border-radius:24px;padding:26px;margin-bottom:20px;display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:18px;align-items:center}
+.how h2{font-family:var(--display);font-weight:900;font-size:30px;margin:0;line-height:1.1}.how .step{display:flex;gap:12px;align-items:center}.how .dot{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-size:24px;background:var(--d);box-shadow:0 0 0 6px rgba(255,255,255,.12);flex:none}.how .step b{font-family:var(--display);font-size:18px;display:block}.how .step span{font-size:13px;opacity:.85}
+footer{display:flex;gap:18px;align-items:center;padding:18px 0 40px;font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.1em}footer hr{flex:1;border:0;border-top:1px solid var(--line)}
+.hint{font-size:13px;color:var(--mute);margin-top:8px}
+.offline{display:none;padding:10px 14px;border-radius:12px;background:var(--yellow);border:1px solid var(--amber);font-size:13px;margin:0 0 12px}
+.regions{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.regions div{background:#f6f3fb;border-radius:12px;padding:10px;font-family:var(--mono);font-size:11px;color:var(--mute)}.regions div b{display:block;font-family:var(--display);font-size:20px;color:var(--ink)}.regions div i{font-style:normal;color:var(--green-dk)}
+.ctrl-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.jbox{background:#f6f3fb;border-radius:16px;padding:14px;border:1px solid var(--line)}.jbox h4{margin:0 0 8px;font-family:var(--display);display:flex;gap:10px}.jbox h4 .st{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--mute);font-weight:500}.mini{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.mini div{background:#fff;border-radius:10px;padding:8px;font-family:var(--mono);font-size:11px;color:var(--mute)}.mini div b{display:block;color:var(--ink);font-family:var(--display);font-size:18px}
+@media (max-width:1000px){.hero{grid-template-columns:1fr}.hero h1{font-size:42px}.features{grid-template-columns:repeat(3,1fr)}.two,.ctrl-grid{grid-template-columns:1fr}.how{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.pillnav{display:none}.regions{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<nav class="top"><div class="wrap">
+  <a class="logo" href="#top">Green<b>Wave</b><small>BY TEAM CUBITX</small></a>
+  <div class="pillnav"><a href="#top" class="cur">Home</a><a href="#how">How it works</a><a href="#control" id="navCorr" target="_blank">Green corridors</a><a href="#commute">Our impact</a></div>
+  <a class="btn" href="#see" id="navDemo">Explore demo →</a>
+</div></nav>
+
+<div class="wrap" id="top">
+<div id="viewJunction">
+  <div class="alert" id="alert"><span style="font-size:26px">🚑</span><div><div class="big" id="alertTitle">Ambulance incoming</div><div id="alertSub"></div></div><div class="eta" id="alertEta">--</div></div>
+  <div class="offline" id="offline"></div>
+
+  <div class="hero">
+    <div>
+      <h1>Every signal.<br>A smoother city.</h1>
+      <p>Signals that see the queue, clear the way, and keep your city moving.</p>
+      <div class="cta"><a class="btn primary" href="#see">Explore GreenWave →</a><a class="btn" href="#how">See how it works ▶</a></div>
+      <div class="note">📷 Existing cameras. Smarter signals. &nbsp;·&nbsp; <span id="roleLabel" style="font-family:var(--mono);letter-spacing:.1em">JUNCTION A</span></div>
+    </div>
+    <div class="stage">
+      <span class="live">● LIVE JUNCTION</span><span class="tagline">Green, when it matters.</span>
+      <div class="junction" id="junctionView">
+        <div class="ap" data-ap="N"><div class="t"><span class="n">North</span><span class="head"><b></b><b></b><b></b></span><span class="src">simulated</span></div><div class="bar"><i></i></div><div class="nums"><span class="q">queue 0</span><span class="w">max wait 0 s</span></div></div>
+        <div class="ap" data-ap="S"><div class="t"><span class="n">South</span><span class="head"><b></b><b></b><b></b></span><span class="src">simulated</span></div><div class="bar"><i></i></div><div class="nums"><span class="q">queue 0</span><span class="w">max wait 0 s</span></div></div>
+        <div class="ap" data-ap="E"><div class="t"><span class="n">East</span><span class="head"><b></b><b></b><b></b></span><span class="src">simulated</span></div><div class="bar"><i></i></div><div class="nums"><span class="q">queue 0</span><span class="w">max wait 0 s</span></div></div>
+        <div class="ap" data-ap="W"><div class="t"><span class="n">West</span><span class="head"><b></b><b></b><b></b></span><span class="src">simulated</span></div><div class="bar"><i></i></div><div class="nums"><span class="q">queue 0</span><span class="w">max wait 0 s</span></div></div>
+      </div>
+      <div class="phase" id="phase" style="margin-top:12px">phase <b>NS</b> · 0 s</div>
+    </div>
+  </div>
+
+  <div class="features">
+    <button class="feat" style="--c:var(--coral)" data-go="see"><div class="pic">📷</div><div class="txt"><h3>See the traffic <span>›</span></h3><p>AI understands the real-time flow.</p><div class="st" id="fs-see">feed off</div></div></button>
+    <button class="feat" style="--c:var(--yellow)" data-go="signals"><div class="pic">🚦</div><div class="txt"><h3>Smarter signals <span>›</span></h3><p>Adapts in real time.</p><div class="st" id="fs-sig">adaptive</div></div></button>
+    <button class="feat" style="--c:var(--lav)" data-go="connected"><div class="pic">🛣️</div><div class="txt"><h3>Connected roads <span>›</span></h3><p>Signals work together.</p><div class="st" id="fs-con">no neighbour yet</div></div></button>
+    <button class="feat" style="--c:var(--mint)" data-go="emergency"><div class="pic">🚑</div><div class="txt"><h3>Emergency first <span>›</span></h3><p>Clears the way faster.</p><div class="st" id="fs-emg">standing by</div></div></button>
+    <button class="feat" style="--c:var(--sky)" data-go="commute"><div class="pic">🚌</div><div class="txt"><h3>A smoother commute <span>›</span></h3><p>Less waiting, more time for what matters.</p><div class="st" id="fs-com">avg wait 0 s</div></div></button>
+    <button class="feat" style="--c:var(--rose)" data-go="learn"><div class="pic">📈</div><div class="txt"><h3>Learn every day <span>›</span></h3><p>Gets smarter with every journey.</p><div class="st" id="fs-lrn">0 lessons</div></div></button>
+  </div>
+
+  <section class="seg" id="see">
+    <div class="seg-h"><div class="ico" style="--c:var(--coral)">📷</div><div><h2>See the traffic</h2><p>The junction camera is split into approach regions. Vehicles that stop for a second or more count as queued.</p></div><span class="tag" id="camTag">feed off</span></div>
+    <div class="two">
+      <div>
+        <div class="video-wrap"><video id="video" autoplay muted playsinline loop></video><canvas id="draw"></canvas>
+          <div class="overlay"><span class="pill" id="pillModel">model: loading</span><span class="pill" id="pillFps">0 fps</span><span class="pill" id="pillCount">0 seen · 0 queued</span><span class="pill" id="pillMix">—</span></div></div>
+        <div class="controls">
+          <span class="lbl">source</span>
+          <select id="srcSel"><option value="youtube" selected>YouTube link (default)</option><option value="sample">Sample CCTV clip</option><option value="amb">Ambulance test clip</option><option value="library">Downloaded videos</option><option value="file">Video file from this PC</option><option value="webcam">Webcam</option></select>
+          <input type="url" id="ytUrl" placeholder="paste YouTube link of a junction video" style="flex:1;min-width:240px">
+          <select id="libSel" style="display:none"></select><select id="camSel" style="display:none"></select>
+          <input type="file" id="fileIn" accept="video/*" style="display:none">
+          <button class="btn primary" id="btnCam">Start feed</button>
+        </div>
+        <div class="controls">
+          <span class="lbl">regions</span>
+          <select id="layoutSel"><option value="quad">Four regions: top N · bottom S · left W · right E</option><option value="lr">Two regions: left W · right E</option><option value="tb">Two regions: top N · bottom S</option><option value="one">Whole frame → one approach</option></select>
+          <select id="camApproach" style="display:none"><option value="W">West</option><option value="E">East</option><option value="N">North</option><option value="S">South</option></select>
+          <span class="lbl">count</span>
+          <select id="countMode"><option value="queue">stopped vehicles (queue)</option><option value="all">all vehicles (density)</option></select>
+        </div>
+      </div>
+      <div>
+        <div class="regions" id="regions"></div>
+        <p class="hint">Detection: TensorFlow.js COCO-SSD in the browser. Each vehicle is tracked between frames; if it moves less than half a car length per second it is queued. Ambulance: a vehicle whose body shows the red cross or light bar (5 to 22% red with some white) for four frames in a row, or the test button. The pilot replaces this rule with a trained ambulance class and siren detection. Pick the region layout that matches the clip: a top-down junction uses four regions, a highway clip one or two.</p>
+        <div class="explain" id="seeExplain">Start a feed to see what the camera counts.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="seg" id="signals">
+    <div class="seg-h"><div class="ico" style="--c:var(--yellow)">🚦</div><div><h2>Smarter signals</h2><p>Green follows the queue. Minimum green 8 s, maximum 45 s, amber 2.5 s, no road waits more than 75 s.</p></div><span class="tag" id="modeTag">adaptive</span></div>
+    <div class="two">
+      <div><div class="explain" id="explain">Waiting for the first decision.</div>
+        <div class="controls"><button class="btn" id="btnMode">Switch to fixed timer</button><button class="btn" id="btnReset">Reset counters</button><button class="btn purple" id="btnDemo">Run 60-second demo</button><button class="btn" id="btnCsv">Download log (CSV)</button></div>
+        <div class="log" id="log" style="margin-top:12px"></div></div>
+      <div class="kpis"><div class="kpi" style="--c:var(--yellow)"><div class="v" id="kAvg">0.0 s</div><small>avg wait per vehicle</small></div><div class="kpi"><div class="v" id="kServed">0</div><small>vehicles served</small></div><div class="kpi"><div class="v" id="kSwitch">0</div><small>phase switches</small></div><div class="kpi" style="--c:var(--coral)"><div class="v" id="kAmb">0</div><small>ambulances cleared</small></div></div>
+    </div>
+  </section>
+
+  <section class="seg" id="connected">
+    <div class="seg-h"><div class="ico" style="--c:var(--lav)">🛣️</div><div><h2>Connected roads</h2><p>Each junction tells its neighbour what it just released and when it arrives, so greens line up along the corridor.</p></div><span class="tag" id="linkTag">channel: greenwave</span></div>
+    <div id="cityJ"></div>
+    <div class="two" style="margin-top:16px">
+      <div><div class="mini"><div>neighbour<b id="nbName">—</b></div><div>last message<b id="nbLast">—</b></div><div>platoons<b id="nbSent">0</b></div><div>alerts<b id="nbAlerts">0</b></div></div>
+        <p class="hint">Open <a href="#junction=B" target="_blank">Junction B</a> and the <a href="#control" target="_blank">control room</a> in other tabs. Messages travel over a browser channel here; in the pilot the same messages travel over MQTT on the city network. J-03 has no controller yet, so it runs on simulated timing.</p></div>
+      <div class="log" id="msgLog" style="max-height:230px"></div>
+    </div>
+  </section>
+
+  <section class="seg" id="emergency">
+    <div class="seg-h"><div class="ico" style="--c:var(--mint)">🚑</div><div><h2>Emergency first</h2><p>An ambulance gets a protected green here and a warning goes to the next junction, which clears its path before the ambulance arrives.</p></div><span class="tag" id="emgTag">standing by</span></div>
+    <div class="chain">
+      <div class="node" id="nodeLocal"><h4>This junction</h4><div class="s" id="emgLocal">no ambulance</div></div>
+      <div style="font-size:30px;text-align:center">→</div>
+      <div class="node" id="nodeNext"><h4>Next junction</h4><div class="s" id="emgNext">no alert sent</div></div>
+    </div>
+    <div class="controls"><button class="btn danger" id="btnAmb">Simulate ambulance heading to the next junction</button><span class="lbl">or choose Source: Ambulance test clip and let the camera trigger it</span></div>
+  </section>
+
+  <section class="seg" id="commute">
+    <div class="seg-h"><div class="ico" style="--c:var(--sky)">🚌</div><div><h2>A smoother commute</h2><p>Average waiting time, live, and a side-by-side run of the old timer against GreenWave on this traffic.</p></div><span class="tag" id="cmpTag">live</span></div>
+    <div class="two">
+      <div><div class="chart"><canvas id="chart"></canvas></div><div class="legend"><span><i style="background:#1f9d55"></i>adaptive</span><span><i style="background:#e8553e"></i>fixed timer</span><span><i style="background:#3b1d5a"></i>ambulance</span></div></div>
+      <div><div class="kpis" style="grid-template-columns:1fr 1fr"><div class="kpi" style="--c:var(--coral)"><div class="v" id="cmpFixed">—</div><small>fixed timer avg wait</small></div><div class="kpi" style="--c:var(--mint)"><div class="v" id="cmpAdapt">—</div><small>GreenWave avg wait</small></div></div>
+        <div class="controls"><button class="btn purple" id="btnCompare">Run 30 s + 30 s comparison</button><span class="lbl" id="cmpStatus">same traffic, two controllers</span></div>
+        <p class="hint">Idle fuel and emissions scale with waiting time, so every second shaved here is fuel not burnt at the stop line.</p></div>
+    </div>
+  </section>
+
+  <section class="seg" id="learn">
+    <div class="seg-h"><div class="ico" style="--c:var(--rose)">📈</div><div><h2>Learn every day</h2><p>Every cycle teaches the junction how much of the demand each axis carries at this time. The next cycle starts from what it learned.</p></div><span class="tag" id="lrnTag">0 lessons</span></div>
+    <div class="two">
+      <div><table class="t" id="lrnTable"><thead><tr><th>time slot</th><th>NS share of demand</th><th>lessons</th><th>avg wait then</th><th>min green NS / EW</th></tr></thead><tbody></tbody></table></div>
+      <div><div class="explain" id="lrnExplain">No lessons yet.</div>
+        <div class="controls"><button class="btn" id="btnForget">Forget everything</button><button class="btn" id="btnLrnCsv">Download lessons (CSV)</button><span class="lbl">stored in this browser between runs</span></div></div>
+    </div>
+  </section>
+
+  <div class="how" id="how">
+    <div><h2>How the green wave happens ✦</h2><p style="opacity:.8;margin:8px 0 0">Live values from this junction.</p></div>
+    <div class="step"><div class="dot" style="--d:#e8553e">📷</div><div><b>See</b><span id="howSee">count the queue</span></div></div>
+    <div class="step"><div class="dot" style="--d:#1d6fd1">🧠</div><div><b>Decide</b><span id="howDecide">choose a safe green</span></div></div>
+    <div class="step"><div class="dot" style="--d:#1f9d55">🔀</div><div><b>Coordinate</b><span id="howCoord">prepare the next junction</span></div></div>
+  </div>
+</div>
+
+<div id="viewControl" style="display:none">
+  <div class="hero" style="grid-template-columns:1fr;padding-bottom:10px"><div><h1>Green corridors.</h1><p>Every junction, every message, one city.</p></div></div>
+  <section class="seg"><div class="seg-h"><div class="ico" style="--c:var(--lav)">🛣️</div><div><h2>Corridor map</h2><p>Platoons and ambulances move as they travel between junctions. Click a junction to read its last decision.</p></div><span class="tag">live</span></div>
+    <div id="cityC"></div></section>
+  <div class="ctrl-grid">
+    <div class="jbox" id="boxA"><h4>Junction A <span class="st">no data</span></h4><div class="mini"><div>N<b>0</b></div><div>S<b>0</b></div><div>E<b>0</b></div><div>W<b>0</b></div></div><p class="hint">—</p></div>
+    <div class="jbox" id="boxB"><h4>Junction B <span class="st">no data</span></h4><div class="mini"><div>N<b>0</b></div><div>S<b>0</b></div><div>E<b>0</b></div><div>W<b>0</b></div></div><p class="hint">—</p></div>
+  </div>
+  <div class="ctrl-grid" style="margin-top:16px">
+    <section class="seg" style="margin:0"><div class="seg-h"><div class="ico" style="--c:var(--sky)">🚌</div><div><h2>Corridor totals</h2></div></div><div class="kpis"><div class="kpi"><div class="v" id="cAvg">0.0 s</div><small>corridor avg wait</small></div><div class="kpi"><div class="v" id="cServed">0</div><small>vehicles served</small></div><div class="kpi"><div class="v" id="cMsgs">0</div><small>messages</small></div><div class="kpi" style="--c:var(--coral)"><div class="v" id="cAmb">0</div><small>ambulances cleared</small></div></div></section>
+    <section class="seg" style="margin:0"><div class="seg-h"><div class="ico" style="--c:var(--mint)">📈</div><div><h2>Average wait over time</h2></div></div><div class="chart"><canvas id="cchart"></canvas></div><div class="legend"><span><i style="background:#f2b705"></i>Junction A</span><span><i style="background:#1d6fd1"></i>Junction B</span><span><i style="background:#3b1d5a"></i>ambulance</span></div></section>
+  </div>
+  <section class="seg" style="margin-top:16px"><div class="seg-h"><div class="ico" style="--c:var(--yellow)">📝</div><div><h2>Event feed</h2></div></div><div class="log" id="feed" style="max-height:380px"></div></section>
+</div>
+
+<footer><span>GREENWAVE · TEAM CUBITX · VISTERA 2026</span><hr><span>PROTOTYPE · LIVE DATA FROM THIS BROWSER</span></footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
+<script src="iso.js"></script>
+<script>
+(function(){
+'use strict';
+const hash=location.hash||'#junction=A';
+const ROLE=hash.startsWith('#control')?'control':(hash.includes('=B')?'B':'A');
+const NEIGHBOUR={A:'B',B:'A'}[ROLE];
+const CITY_J=[{id:'A',code:'J-01',name:'Market Road'},{id:'B',code:'J-02',name:'Central Junction'},{id:'C',code:'J-03',name:'Hospital Road'}];
+const LINK_M=400,LINK_SPEED=11;
+const DEFAULT_YOUTUBE='https://www.youtube.com/watch?v=_l99w_CKwCU'; // the one junction video used every run; change this line to use another
+const $=id=>document.getElementById(id);
+addEventListener('hashchange',()=>{const h=location.hash;if(h.startsWith('#control')||h.startsWith('#junction'))location.reload();});
+const bc=('BroadcastChannel' in window)?new BroadcastChannel('greenwave'):null;
+function send(msg){msg.from=ROLE;msg.t=Date.now();if(bc)bc.postMessage(msg);}
+const fmt=t=>new Date(t).toLocaleTimeString('en-IN',{hour12:false});
+function addLog(el,cls,text,t){if(!el)return;const e=document.createElement('div');e.className='e '+cls;e.innerHTML=`<time>${fmt(t||Date.now())}</time><div>${text}</div>`;el.prepend(e);while(el.children.length>80)el.lastChild.remove();}
+function lineChart(c,series,marks,span){const W=c.clientWidth*devicePixelRatio,H=c.clientHeight*devicePixelRatio;if(!W)return;if(c.width!==W){c.width=W;c.height=H;}const g=c.getContext('2d');g.clearRect(0,0,W,H);const now=Date.now();const all=series.flatMap(s=>s.pts);const max=Math.max(10,...all.map(p=>p.v))*1.15;g.strokeStyle='rgba(43,26,63,.08)';g.lineWidth=1;for(let i=1;i<4;i++){const y=H-H*i/4;g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke();g.fillStyle='#6b6478';g.font=`${11*devicePixelRatio}px JetBrains Mono`;g.fillText((max*i/4).toFixed(0)+' s',6*devicePixelRatio,y-4);}
+  marks.forEach(t=>{const x=W*(1-(now-t)/span);if(x<0)return;g.strokeStyle='#3b1d5a';g.setLineDash([6,6]);g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke();g.setLineDash([]);});
+  series.forEach(s=>{const pts=s.pts.filter(p=>now-p.t<span);if(pts.length<2)return;g.strokeStyle=s.col;g.lineWidth=2.5*devicePixelRatio;g.beginPath();pts.forEach((p,i)=>{const x=W*(1-(now-p.t)/span),y=H-H*p.v/max;i?g.lineTo(x,y):g.moveTo(x,y);});g.stroke();});}
+
+// ============================================================ CONTROL ROOM
+if(ROLE==='control'){
+  $('viewJunction').style.display='none';$('viewControl').style.display='block';$('navCorr').classList.add('cur');document.querySelector('.pillnav a').classList.remove('cur');$('navDemo').href='#junction=A';$('navDemo').textContent='Open Junction A →';
+  const feed=$('feed');const state={A:null,B:null};const city=GWCity.mount($('cityC'),{junctions:CITY_J,title:'North corridor',sub:'Hyderabad · 3 junctions'});let msgs=0;const hist={A:[],B:[]};const ambMarks=[];
+  function paintBox(id){const s=state[id];if(!s)return;const box=$('box'+id);box.querySelector('.st').textContent=`phase ${s.phase}${s.amber?' (amber)':''} · ${s.tPhase}s · ${s.mode}${s.preempt?' · AMBULANCE':''}`;const m=box.querySelectorAll('.mini b');['N','S','E','W'].forEach((k,i)=>m[i].textContent=s.q[k]);box.querySelector('.hint').textContent=`avg wait ${s.avg}s · served ${s.served} · ${s.cam?'camera feeds '+s.cam:'simulated inputs'} · ${s.lessons} lessons learned`;city.setState(id,s);}
+  function totals(){const a=state.A,b=state.B;const served=(a?a.served:0)+(b?b.served:0);const wsum=(a?a.avg*a.served:0)+(b?b.avg*b.served:0);$('cAvg').textContent=(served?wsum/served:0).toFixed(1)+' s';$('cServed').textContent=served;$('cMsgs').textContent=msgs;$('cAmb').textContent=(a?a.amb||0:0)+(b?b.amb||0:0);}
+  if(bc)bc.onmessage=ev=>{const m=ev.data;if(m.type==='state'){state[m.from]=m;paintBox(m.from);hist[m.from].push({t:m.t,v:+m.avg});if(hist[m.from].length>400)hist[m.from].shift();}
+    else if(m.type==='platoon'){msgs++;addLog(feed,'msg',`<b>${m.from} → ${m.to}</b> platoon of ${m.count} released, arrives in ~${m.eta}s`,m.t);city.addMover({kind:'platoon',from:m.from,to:m.to,count:m.count,t0:m.t,eta:m.eta*1000});}
+    else if(m.type==='ambulance'){msgs++;ambMarks.push(m.t);addLog(feed,'amb',`<b>🚑 ${m.from} → ${m.to}</b> ambulance alert, ETA ${m.eta}s. ${m.to} must pre-clear its ${m.phase} green.`,m.t);city.addMover({kind:'amb',from:m.from,to:m.to,t0:m.t,eta:m.eta*1000});}
+    else if(m.type==='ack'){msgs++;addLog(feed,'msg',`<b>${m.from}</b> ${m.text}`,m.t);}
+    else if(m.type==='log'){addLog(feed,m.cls,`<b>${m.from}</b> ${m.text}`,m.t);}};
+  setInterval(()=>{totals();lineChart($('cchart'),[{pts:hist.A,col:'#f2b705'},{pts:hist.B,col:'#1d6fd1'}],ambMarks,180000);},1000);
+  addLog(feed,'msg','Control room open. Waiting for junction tabs.');
+  return;
+}
+
+// ============================================================ JUNCTION
+$('roleLabel').textContent='JUNCTION '+ROLE+(ROLE==='A'?' · CAMERA':'');
+document.querySelectorAll('.feat').forEach(b=>b.onclick=()=>{const s=$(b.dataset.go);document.querySelectorAll('section.seg').forEach(x=>x.classList.remove('active'));s.classList.add('active');s.scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>s.classList.remove('active'),2500);});
+const AP=['N','S','E','W'],AXIS={N:'NS',S:'NS',E:'EW',W:'EW'};
+const rates=ROLE==='A'?{N:.30,S:.30,E:.12,W:.10}:{N:.28,S:.28,E:.10,W:.12};
+const lanes={};AP.forEach(k=>lanes[k]={q:[],acc:0,camCount:null});
+let phase='NS',tPhase=0,amber=0,mode='adaptive',totalWait=0,served=0,switches=0,ambCleared=0,preempt=null,incoming=null;
+const log=$('log'),msgLog=$('msgLog');
+const MIN=8,MAX=45,FIXED=30,AMB=2.5,SAT=1.1;
+let switchReason='',holdReason='';
+// ---------- learning memory, per 10-minute slot of the clock, kept in this browser
+const LKEY='greenwave_lessons_'+ROLE;let lessons={};try{lessons=JSON.parse(localStorage.getItem(LKEY)||'{}');}catch(e){lessons={};}
+function slotKey(){const d=new Date();return d.getHours().toString().padStart(2,'0')+':'+(Math.floor(d.getMinutes()/10)*10).toString().padStart(2,'0');}
+let cycleNS=0,cycleEW=0,cycleWait=0,cycleServed=0;
+function minFor(ax,L){if(!L||L.n<2)return MIN;const share=ax==='NS'?L.ns:1-L.ns;return Math.round(MIN*(0.6+0.8*share));}
+function learnedMin(ax){return minFor(ax,lessons[slotKey()]);}
+function lessonsCount(){return Object.values(lessons).reduce((s,l)=>s+l.n,0);}
+function recordCycle(){const tot=cycleNS+cycleEW;if(tot<3){cycleNS=cycleEW=cycleWait=cycleServed=0;return;}const k=slotKey();const L=lessons[k]||{ns:.5,n:0,wait:0};const a=1/(L.n+1);L.ns=L.ns*(1-a)+(cycleNS/tot)*a;L.wait=L.wait*(1-a)+(cycleServed?cycleWait/cycleServed:0)*a;L.n++;lessons[k]=L;try{localStorage.setItem(LKEY,JSON.stringify(lessons));}catch(e){}
+  if(L.n===2)note('learn',`<b>Lesson learned for ${k}:</b> north–south carries about ${Math.round(L.ns*100)}% of demand here. Minimum greens are now ${minFor('NS',L)} s NS / ${minFor('EW',L)} s EW at this time.`);
+  cycleNS=cycleEW=cycleWait=cycleServed=0;paintLessons();}
+function paintLessons(){const tb=$('lrnTable').querySelector('tbody');const cur=slotKey();const keys=Object.keys(lessons).sort();tb.innerHTML=keys.map(k=>{const L=lessons[k];return `<tr class="${k===cur?'cur':''}"><td>${k}</td><td>${Math.round(L.ns*100)}%</td><td>${L.n}</td><td>${L.wait.toFixed(1)} s</td><td>${minFor('NS',L)} s / ${minFor('EW',L)} s</td></tr>`;}).join('')||'<tr><td colspan="5" style="color:var(--mute)">no lessons yet</td></tr>';
+  const n=lessonsCount();$('lrnTag').textContent=n+' lessons';$('fs-lrn').textContent=n+' lessons';const L=lessons[cur];
+  $('lrnExplain').innerHTML=L&&L.n>=2?`<b>Using what it learned for ${cur}.</b> At this time north–south usually carries ${Math.round(L.ns*100)}% of demand, so its minimum green is ${learnedMin('NS')} s and east–west gets ${learnedMin('EW')} s. Average wait recorded then: ${L.wait.toFixed(1)} s. Each new cycle refines these numbers.`:`<b>Still learning ${cur}.</b> ${L?L.n:0} of 2 cycles recorded for this slot. Until then both axes use the default ${MIN} s minimum green. A cycle is one full NS + EW green.`;}
+paintLessons();
+$('btnForget').onclick=()=>{lessons={};try{localStorage.removeItem(LKEY);}catch(e){}paintLessons();note('learn','Learning memory cleared.');};
+// ---------- helpers
+function queue(k){const l=lanes[k];return l.camCount!=null?Math.max(l.camCount,l.q.length):l.q.length;}
+function maxWait(k){return lanes[k].q.reduce((m,v)=>Math.max(m,v.w),0);}
+let lastWhy='';function explain(text){lastWhy=text.replace(/<[^>]+>/g,'');$('explain').innerHTML=text;$('howDecide').textContent=text.replace(/<[^>]+>/g,'').slice(0,90);}
+const logRows=[];
+function csvDownload(name,rows){const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=name;a.click();}
+function note(cls,text){logRows.push([new Date().toISOString(),ROLE,cls,text.replace(/<[^>]+>/g,''),phase,Math.round(tPhase),AP.map(k=>queue(k)).join(' '),served?(totalWait/served).toFixed(2):'0']);addLog(log,cls,text);if(cls==='msg'||cls==='amb')addLog(msgLog,cls,text);send({type:'log',cls,text});}
+function setEmg(local,next,hot){$('emgLocal').innerHTML=local;$('emgNext').innerHTML=next;$('nodeLocal').classList.toggle('hot',!!hot);$('nodeNext').classList.toggle('hot',!!hot);$('emgTag').textContent=hot?'ACTIVE':'standing by';$('fs-emg').textContent=hot?'ambulance active':'standing by';}
+// ---------- controller
+function step(dt){
+  AP.forEach(k=>{if(Math.random()<rates[k]*dt)lanes[k].q.push({w:0});});
+  tPhase+=dt;
+  const qNS=queue('N')+queue('S'),qEW=queue('E')+queue('W');
+  if(incoming){incoming.eta-=dt;$('alertEta').textContent=Math.max(0,Math.ceil(incoming.eta))+' s';
+    if(incoming.eta<=12&&!preempt){preempt={axis:incoming.axis,src:'incoming',hold:incoming.eta+8};note('amb',`Pre-clearing <b>${incoming.axis}</b> green for incoming ambulance from ${incoming.from} (ETA ${Math.ceil(incoming.eta)} s).`);send({type:'ack',text:`pre-clearing ${incoming.axis} green, ambulance from ${incoming.from} due in ${Math.ceil(incoming.eta)} s`});setEmg(`pre-clearing ${incoming.axis} green`,`ambulance from ${incoming.from} arriving in ${Math.ceil(incoming.eta)} s`,true);}
+    if(incoming.eta<=-6){incoming=null;$('alert').classList.remove('show');}}
+  if(preempt){preempt.hold-=dt;if(preempt.hold<=0){note('amb',`Ambulance cleared through <b>${preempt.axis}</b>. Normal control resumes.`);ambCleared++;preempt=null;setEmg('cleared, normal control','acknowledged',false);}}
+  let want=phase;
+  const minG=mode==='adaptive'?learnedMin(phase):MIN;
+  if(preempt)want=preempt.axis;
+  else if(mode==='fixed'){if(tPhase>=FIXED)want=phase==='NS'?'EW':'NS';}
+  else{const cur=phase==='NS'?qNS:qEW,oth=phase==='NS'?qEW:qNS;const starve=Math.max(...AP.filter(k=>AXIS[k]!==phase).map(maxWait));
+    if(tPhase>=minG&&(oth>cur+1||(cur===0&&oth>0)||tPhase>=MAX||starve>75)){want=phase==='NS'?'EW':'NS';switchReason=starve>75?`the ${phase==='NS'?'east–west':'north–south'} road has waited ${Math.round(starve)} s (fairness limit 75 s)`:(tPhase>=MAX?`maximum green of ${MAX} s reached`:`the other axis has the longer queue (${oth} vs ${cur})`);}
+    else if(tPhase>=minG&&cur>0)holdReason=`${phase==='NS'?'north–south':'east–west'} still has ${cur} waiting against ${oth}; holding green`;}
+  if(amber>0){amber-=dt;if(amber<=0){const old=phase;phase=phase==='NS'?'EW':'NS';tPhase=0;switches++;
+      if(old==='EW'&&!preempt&&mode==='adaptive')recordCycle();
+      const L=lessons[slotKey()];const why=preempt?`<b>Ambulance priority.</b> Switched to <b>${phase}</b> so the ambulance never meets a red.`:(mode==='fixed'?`<b>Switched to ${phase}.</b> Fixed timer: ${FIXED} s each way, whatever the queues.`:`<b>Switched to ${phase}.</b> Reason: ${switchReason||'scheduled change'}.${L&&L.n>=2?' Minimum green for this axis is '+learnedMin(phase)+' s, learned for this time of day.':''}`);explain(why);note(preempt?'amb':'decide',why);}}
+  else if(want!==phase)amber=AMB;
+  else if(mode==='adaptive'&&!preempt&&tPhase>minG&&Math.floor(tPhase)%5===0&&holdReason)explain(`<b>Holding ${phase} green.</b> ${holdReason}.`);
+  const green=ax=>amber<=0&&phase===ax;
+  AP.forEach(k=>{const l=lanes[k];const g=green(AXIS[k]);l.acc=g?l.acc+dt:0;while(g&&l.acc>=SAT&&l.q.length){l.acc-=SAT;const v=l.q.shift();totalWait+=v.w;served++;cycleWait+=v.w;cycleServed++;l.released=(l.released||0)+1;}l.q.forEach(v=>v.w+=dt);});
+  cycleNS+=qNS*dt;cycleEW+=qEW*dt;
+  if(amber>0&&amber<=dt+.001&&phase==='EW'){const outLane=ROLE==='A'?'W':'E';const n=lanes[outLane].released||0;if(n>0){const eta=Math.round(LINK_M/LINK_SPEED);send({type:'platoon',to:NEIGHBOUR,count:n,eta});city.addMover({kind:'platoon',from:ROLE,to:NEIGHBOUR,count:n,eta:eta*1000});$('nbSent').textContent=+$('nbSent').textContent+1;$('nbLast').textContent='platoon '+n;note('msg',`Sent to ${NEIGHBOUR}: platoon of ${n} released, arriving in ~${eta} s.`);$('howCoord').textContent=`told ${NEIGHBOUR}: ${n} vehicles in ${eta} s`;}AP.forEach(k=>lanes[k].released=0);}
+}
+function paint(){
+  AP.forEach(k=>{const el=document.querySelector(`.ap[data-ap="${k}"]`);const q=queue(k);el.querySelector('.bar i').style.width=Math.min(100,q*7)+'%';el.querySelector('.q').textContent='queue '+q;el.querySelector('.w').textContent='max wait '+Math.round(maxWait(k))+' s';const st=amber>0?(phase===AXIS[k]?'a':'r'):(phase===AXIS[k]?'g':'r');const b=el.querySelectorAll('.head b');b[0].className=st==='r'?'on-r':'';b[1].className=st==='a'?'on-a':'';b[2].className=st==='g'?'on-g':'';el.querySelector('.src').textContent=lanes[k].camCount!=null?'camera':'simulated';});
+  $('phase').innerHTML=`phase <b>${phase}</b> · ${Math.round(tPhase)} s${amber>0?' · amber':''}${preempt?' · <span style="color:var(--red)">AMBULANCE</span>':''} · min green ${learnedMin(phase)} s`;
+  const avg=served?totalWait/served:0;$('kAvg').textContent=avg.toFixed(1)+' s';$('kServed').textContent=served;$('kSwitch').textContent=switches;$('kAmb').textContent=ambCleared;$('fs-com').textContent='avg wait '+avg.toFixed(1)+' s';$('fs-sig').textContent=mode+' · '+phase+' green';
+}
+let last=performance.now();setInterval(()=>{const now=performance.now();let dt=Math.max(0,Math.min(2,(now-last)/1000));last=now;while(dt>0){const h=Math.min(.1,dt);step(h);dt-=h;}paint();},100);
+const hist={adapt:[],fixed:[]},ambMarks=[];let lastServed=0,lastWait=0;
+setInterval(()=>{const dS=served-lastServed,dW=totalWait-lastWait;lastServed=served;lastWait=totalWait;const v=dS?dW/dS:(served?totalWait/served:0);(mode==='adaptive'?hist.adapt:hist.fixed).push({t:Date.now(),v});lineChart($('chart'),[{pts:hist.adapt,col:'#1f9d55'},{pts:hist.fixed,col:'#e8553e'}],ambMarks,180000);
+  const q={};AP.forEach(k=>q[k]=queue(k));const st={type:'state',phase,tPhase:Math.round(tPhase),amber:amber>0,mode,preempt:!!preempt,q,avg:(served?totalWait/served:0).toFixed(1),served,amb:ambCleared,cam:AP.filter(k=>lanes[k].camCount!=null).join('')||null,lessons:lessonsCount(),why:lastWhy};send(st);city.setState(ROLE,st);},1000);
+const city=GWCity.mount($('cityJ'),{junctions:CITY_J,title:'North corridor',sub:'Hyderabad · 3 junctions'});
+if(bc)bc.onmessage=ev=>{const m=ev.data;if(m.from===ROLE)return;
+  if(m.type==='state'){$('nbName').textContent='Junction '+m.from;$('fs-con').textContent='linked to '+m.from;city.setState(m.from,m);}
+  else if(m.type==='platoon'&&m.to===ROLE){$('nbLast').textContent='platoon '+m.count+' in';city.addMover({kind:'platoon',from:m.from,to:ROLE,count:m.count,t0:m.t,eta:m.eta*1000});note('msg',`From ${m.from}: platoon of ${m.count} arriving in ~${m.eta} s on the ${ROLE==='A'?'east':'west'} approach. Planning EW green for arrival.`);const inLane=ROLE==='A'?'E':'W';setTimeout(()=>{for(let i=0;i<m.count;i++)lanes[inLane].q.push({w:0});},m.eta*1000);setTimeout(()=>{if(!preempt&&phase==='NS'&&tPhase>=MIN)amber=amber||AMB;},Math.max(0,(m.eta-4)*1000));}
+  else if(m.type==='ambulance'&&m.to===ROLE){incoming={from:m.from,eta:m.eta,axis:m.phase};city.addMover({kind:'amb',from:m.from,to:ROLE,t0:m.t,eta:m.eta*1000});ambMarks.push(m.t);$('alertTitle').textContent='Ambulance incoming from Junction '+m.from;$('alertSub').textContent=`${ROLE==='A'?'Westbound':'Eastbound'} on the ${m.phase} axis. Pre-clearing green 12 s before arrival.`;$('alert').classList.add('show');$('nbAlerts').textContent=+$('nbAlerts').textContent+1;$('nbLast').textContent='AMBULANCE';note('amb',`<b>Alert from ${m.from}:</b> ambulance arriving in ${m.eta} s on the ${m.phase} axis.`);setEmg('waiting to pre-clear',`alert received from ${m.from}, ETA ${m.eta} s`,true);}
+  else if(m.type==='ack'){note('msg',`${m.from} acknowledged: ${m.text}`);$('emgNext').textContent=m.from+' acknowledged: '+m.text;}};
+function ambulanceDetected(approach,source){if(preempt&&preempt.src==='local')return;const axis=AXIS[approach];preempt={axis,src:'local',hold:14};$('nbAlerts').textContent=+$('nbAlerts').textContent+1;const eta=Math.round(LINK_M/LINK_SPEED)+10;ambMarks.push(Date.now());
+  note('amb',`<b>Ambulance detected on the ${approach} approach</b> (${source}). Protected <b>${axis}</b> green for 14 s.`);explain(`<b>Ambulance priority.</b> Detected on the ${approach} approach by ${source}. Holding ${axis} green and alerting Junction ${NEIGHBOUR}, which will pre-clear its ${axis} green before the ambulance arrives in about ${eta} s.`);
+  send({type:'ambulance',to:NEIGHBOUR,phase:axis,eta,approach});city.addMover({kind:'amb',from:ROLE,to:NEIGHBOUR,eta:eta*1000});setEmg(`protected ${axis} green, 14 s`,`alert sent to ${NEIGHBOUR}, ETA ${eta} s`,true);$('howCoord').textContent=`ambulance alert sent to ${NEIGHBOUR}`;if(phase!==axis&&amber<=0)amber=AMB;}
+$('btnAmb').onclick=()=>ambulanceDetected(CORRIDOR_AP,'test button');
+$('btnMode').onclick=()=>{mode=mode==='adaptive'?'fixed':'adaptive';$('modeTag').textContent=mode;$('btnMode').textContent=mode==='adaptive'?'Switch to fixed timer':'Switch to adaptive';note('decide',`Controller mode: <b>${mode}</b>.`);};
+$('btnCsv').onclick=()=>csvDownload(`greenwave_${ROLE}_log.csv`,[['time','junction','type','event','phase','phase_s','queues N S E W','avg_wait_s'],...logRows]);
+$('btnLrnCsv').onclick=()=>csvDownload(`greenwave_${ROLE}_lessons.csv`,[['slot','ns_share','lessons','avg_wait_s','min_green_ns','min_green_ew'],...Object.keys(lessons).sort().map(k=>{const L=lessons[k];return [k,L.ns.toFixed(3),L.n,L.wait.toFixed(2),minFor('NS',L),minFor('EW',L)];})]);
+$('btnReset').onclick=()=>{totalWait=0;served=0;switches=0;ambCleared=0;lastServed=0;lastWait=0;note('decide','Counters reset.');};
+$('btnCompare').onclick=async()=>{const b=$('btnCompare');b.disabled=true;const run=async(m,sec)=>{if(mode!==m)$('btnMode').click();const s0=served,w0=totalWait;for(let i=sec;i>0;i--){$('cmpStatus').textContent=`${m} running · ${i} s`;await new Promise(r=>setTimeout(r,1000));}const n=served-s0;return n?(totalWait-w0)/n:0;};
+  const f=await run('fixed',30);$('cmpFixed').textContent=f.toFixed(1)+' s';const a=await run('adaptive',30);$('cmpAdapt').textContent=a.toFixed(1)+' s';$('cmpStatus').textContent=f>a?`GreenWave waited ${Math.round((1-a/f)*100)}% less`:'no difference on this traffic';note('decide',`<b>Comparison:</b> fixed timer ${f.toFixed(1)} s, GreenWave ${a.toFixed(1)} s average wait on the same traffic.`);b.disabled=false;};
+let demoRunning=false;$('btnDemo').onclick=async()=>{if(demoRunning)return;demoRunning=true;const b=$('btnDemo');const say=(t,sec)=>{b.textContent=`Demo · ${t} (${sec}s)`;note('decide',`<b>Demo:</b> ${t}`);};if(mode!=='adaptive')$('btnMode').click();if(!detecting&&!stream){srcSel.value='sample';$('btnCam').click();}
+  say('feed running, adaptive control, queues building',0);await new Promise(r=>setTimeout(r,20000));say('ambulance appears on the camera approach',20);ambulanceDetected(CORRIDOR_AP,'demo');await new Promise(r=>setTimeout(r,25000));say('switching to the old fixed timer to compare',45);if(mode==='adaptive')$('btnMode').click();await new Promise(r=>setTimeout(r,15000));if(mode!=='adaptive')$('btnMode').click();say('back to adaptive. Demo complete',60);setTimeout(()=>{b.textContent='Run 60-second demo';demoRunning=false;},3000);};
+
+// ============================================================ FEED, REGIONS, TRACKING
+const video=$('video'),draw=$('draw'),ctx=draw.getContext('2d');let model=null,stream=null,detecting=false,ambStreak=0;
+const VEH=new Set(['car','truck','bus','motorcycle','bicycle']);
+const LAYOUTS={quad:{N:1,S:1,W:1,E:1},lr:{W:[0,0,.5,1],E:[.5,0,.5,1]},tb:{N:[0,0,1,.5],S:[0,.5,1,.5]},one:null};
+let layout='quad';const layoutSel=$('layoutSel'),camApproach=$('camApproach'),countMode=$('countMode');
+function regionOf(cx,cy){if(layout==='one')return camApproach.value;const nx=cx/draw.width,ny=cy/draw.height;if(layout==='quad'){const dn=ny,ds=1-ny,dw=nx,de=1-nx;const m=Math.min(dn,ds,dw,de);return m===dn?'N':m===ds?'S':m===dw?'W':'E';}const R=LAYOUTS[layout];for(const k in R){const [x,y,w,h]=R[k];if(nx>=x&&nx<x+w&&ny>=y&&ny<y+h)return k;}return null;}
+function camLanes(){return layout==='one'?[camApproach.value]:Object.keys(LAYOUTS[layout]);}
+function camLanesPrimary(){return camLanes()[0];}
+const CORRIDOR_AP=ROLE==='A'?'W':'E'; // the approach an ambulance uses on its way to the neighbour
+function applyLayout(){layout=layoutSel.value;camApproach.style.display=layout==='one'?'':'none';AP.forEach(k=>lanes[k].camCount=null);paintRegions({});note('cam',`Camera regions: <b>${layoutSel.options[layoutSel.selectedIndex].text}</b>.`);}
+layoutSel.onchange=applyLayout;camApproach.onchange=applyLayout;
+const NAME={N:'North',S:'South',E:'East',W:'West'};
+function paintRegions(counts){$('regions').innerHTML=AP.map(k=>{const c=counts[k];return `<div>${NAME[k]}<b>${c?c.q:'–'}</b>${c?`<i>${c.seen} seen</i> · ${c.q} queued`:(camLanes().includes(k)?'camera, feed off':'simulated')}</div>`;}).join('');}
+paintRegions({});
+let tracks=[],nextId=1;
+function updateTracks(preds){const now=performance.now();const used=new Set();preds.forEach(p=>{const [x,y,w,h]=p.bbox;const cx=x+w/2,cy=y+h/2;let best=null,bd=1e9;tracks.forEach(t=>{if(used.has(t.id))return;const d=Math.hypot(t.cx-cx,t.cy-cy);if(d<Math.max(60,w)&&d<bd){bd=d;best=t;}});
+    if(best){used.add(best.id);best.hist.push({t:now,cx,cy});if(best.hist.length>12)best.hist.shift();best.cx=cx;best.cy=cy;best.w=w;best.h=h;best.cls=p.class;best.seen=now;best.bbox=p.bbox;}
+    else{const t={id:nextId++,cx,cy,w,h,cls:p.class,seen:now,hist:[{t:now,cx,cy}],bbox:p.bbox};tracks.push(t);used.add(t.id);}});
+  tracks=tracks.filter(t=>now-t.seen<700);}
+function isStopped(t){const h=t.hist;if(h.length<4)return false;const a=h[0],b=h[h.length-1];const dtm=(b.t-a.t)/1000;if(dtm<.8)return false;const moved=Math.hypot(b.cx-a.cx,b.cy-a.cy);return moved<Math.max(8,t.w*.5)*dtm;}
+function isAmbulance(box){const [x,y,w,h]=box;if(w<40||h<40)return false;const c=document.createElement('canvas');c.width=32;c.height=32;const g=c.getContext('2d');try{g.drawImage(video,x,y,w,h,0,0,32,32);}catch(e){return false;}const d=g.getImageData(0,0,32,32).data;let white=0,red=0;for(let i=0;i<d.length;i+=4){const r=d[i],gg=d[i+1],b=d[i+2];if(r>170&&gg>170&&b>170)white++;else if(r>140&&gg<90&&b<90)red++;}const n=d.length/4;const wr=white/n,rr=red/n;return h>=60&&rr>=.05&&rr<=.22&&wr>=.03;}
+async function detectLoop(){if(!detecting)return;const t0=performance.now();
+  if(model&&video.readyState>=2&&video.videoWidth){let preds=[];try{preds=await model.detect(video,20,.4);}catch(e){}
+    if(draw.width!==video.videoWidth){draw.width=video.videoWidth;draw.height=video.videoHeight;}
+    preds=preds.filter(p=>VEH.has(p.class));updateTracks(preds);
+    ctx.clearRect(0,0,draw.width,draw.height);
+    ctx.strokeStyle='rgba(255,255,255,.35)';ctx.setLineDash([10,8]);ctx.lineWidth=2;if(layout==='quad'){ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(draw.width,draw.height);ctx.moveTo(draw.width,0);ctx.lineTo(0,draw.height);ctx.stroke();}else if(layout==='lr'){ctx.beginPath();ctx.moveTo(draw.width/2,0);ctx.lineTo(draw.width/2,draw.height);ctx.stroke();}else if(layout==='tb'){ctx.beginPath();ctx.moveTo(0,draw.height/2);ctx.lineTo(draw.width,draw.height/2);ctx.stroke();}ctx.setLineDash([]);
+    ctx.fillStyle='rgba(255,255,255,.75)';ctx.font=`bold ${Math.round(draw.height/28)}px Nunito, sans-serif`;const lab={N:[draw.width/2-36,42],S:[draw.width/2-36,draw.height-16],W:[16,draw.height/2],E:[draw.width-80,draw.height/2]};camLanes().forEach(k=>{const [x,y]=lab[k];ctx.fillText(NAME[k].toUpperCase(),x,y);});
+    const counts={};camLanes().forEach(k=>counts[k]={seen:0,q:0});const mix={};let amb=false,seenAll=0,qAll=0;
+    tracks.forEach(t=>{if(performance.now()-t.seen>200)return;const k=regionOf(t.cx,t.cy);const stopped=isStopped(t);const a=isAmbulance(t.bbox);if(a)amb=true;seenAll++;mix[t.cls]=(mix[t.cls]||0)+1;const counted=stopped||countMode.value==='all';if(k&&counts[k]){counts[k].seen++;if(counted){counts[k].q++;qAll++;}}
+      const [x,y,w,h]=t.bbox;ctx.lineWidth=3;ctx.strokeStyle=a?'#ff4d4f':(stopped?'#ffd23f':'#3ddc84');ctx.strokeRect(x,y,w,h);ctx.fillStyle=ctx.strokeStyle;ctx.font='bold 15px Manrope, sans-serif';const label=(a?'AMBULANCE? ':'')+t.cls+(stopped?' · queued':'')+(k?' · '+k:'');const tw=ctx.measureText(label).width+10;ctx.fillRect(x,Math.max(0,y-22),tw,22);ctx.fillStyle='#1b1430';ctx.fillText(label,x+5,Math.max(16,y-6));});
+    camLanes().forEach(k=>{const l=lanes[k];const v=counts[k].q;l.camCount=l.camCount==null?v:Math.round(l.camCount*.6+v*.4);});
+    $('pillCount').textContent=`${seenAll} seen · ${qAll} queued`;$('pillMix').textContent=Object.entries(mix).map(([k,v])=>v+' '+k).join(' · ')||'—';paintRegions(counts);
+    $('howSee').textContent=`${qAll} queued of ${seenAll} seen`;$('fs-see').textContent=`${qAll} queued · ${seenAll} seen`;
+    $('seeExplain').innerHTML=`<b>${seenAll} vehicles in view, ${qAll} counted as ${countMode.value==='queue'?'queued (stopped)':'demand (all vehicles)'}.</b> Per approach: ${camLanes().map(k=>NAME[k]+' '+counts[k].q).join(', ')}. ${countMode.value==='queue'&&qAll===0&&seenAll>0?'Nothing is stopping in this clip, so the queue is zero. For a free-flowing road switch count to <b>all vehicles</b>.':'These are the queues the controller is reading right now.'}`;
+    ambStreak=amb?ambStreak+1:0;if(ambStreak===4)ambulanceDetected(camLanes().includes(CORRIDOR_AP)?CORRIDOR_AP:camLanesPrimary(),'camera');}
+  const dt=performance.now()-t0;$('pillFps').textContent=(1000/Math.max(dt,1)).toFixed(0)+' fps';setTimeout(detectLoop,Math.max(0,120-dt));}
+const srcSel=$('srcSel'),fileIn=$('fileIn'),ytUrl=$('ytUrl'),libSel=$('libSel');ytUrl.value=DEFAULT_YOUTUBE;
+async function listCams(){try{const d=await navigator.mediaDevices.enumerateDevices();const sel=$('camSel');sel.innerHTML='';d.filter(x=>x.kind==='videoinput').forEach((x,i)=>{const o=document.createElement('option');o.value=x.deviceId;o.textContent=x.label||('Camera '+(i+1));sel.appendChild(o);});}catch(e){}}
+async function refreshLib(){try{const r=await fetch('/api/videos');const j=await r.json();libSel.innerHTML='';j.files.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;libSel.appendChild(o);});}catch(e){}}
+listCams();refreshLib();
+srcSel.onchange=()=>{$('camSel').style.display=srcSel.value==='webcam'?'':'none';ytUrl.style.display=srcSel.value==='youtube'?'':'none';libSel.style.display=srcSel.value==='library'?'':'none';if(srcSel.value==='library')refreshLib();};
+async function fetchYouTube(url){$('camTag').textContent='downloading 0%';note('cam','Downloading the YouTube video on the local server.');for(;;){const r=await fetch('/api/fetch?url='+encodeURIComponent(url));const j=await r.json();if(j.status==='done'){await refreshLib();return j.file;}if(j.status==='error')throw new Error(j.msg);$('camTag').textContent='downloading '+Math.round(j.pct||0)+'%';await new Promise(r=>setTimeout(r,1500));}}
+async function loadModel(){try{model=await cocoSsd.load({base:'lite_mobilenet_v2'});$('pillModel').textContent='model: ready';$('pillModel').classList.add('live');}catch(e){$('pillModel').textContent='model: offline';$('pillModel').classList.add('warn');$('offline').style.display='block';$('offline').textContent='The detection model could not download (internet needed on first run). The feed will show, counts stay simulated. '+e.message;}}
+loadModel().then(async()=>{if(!location.hash.includes('auto'))return;srcSel.value='youtube';ytUrl.value=DEFAULT_YOUTUBE;countMode.value='all';srcSel.dispatchEvent(new Event('change'));$('btnCam').click();});
+function stopFeed(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}video.pause();video.removeAttribute('src');video.srcObject=null;video.load();detecting=false;tracks=[];AP.forEach(k=>lanes[k].camCount=null);$('btnCam').textContent='Start feed';$('camTag').textContent='feed off';$('fs-see').textContent='feed off';paintRegions({});}
+async function startVideo(src,label){video.srcObject=null;video.src=src;video.loop=true;video.muted=true;try{await video.play();}catch(e){}$('btnCam').textContent='Stop feed';$('camTag').textContent='live · '+label;note('cam',`Feed started (${label}). Regions: ${camLanes().join(', ')}.`);detecting=true;detectLoop();}
+video.addEventListener('pause',()=>{if(detecting&&!stream&&!video.ended)setTimeout(()=>video.play().catch(()=>{}),300);});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&detecting&&!stream)video.play().catch(()=>{});});
+fileIn.onchange=async()=>{const f=fileIn.files[0];if(!f)return;try{await startVideo(URL.createObjectURL(f),f.name);}catch(e){$('camTag').textContent='failed';}};
+$('btnCam').onclick=async()=>{if(detecting||stream){stopFeed();return;}const kind=srcSel.value;
+  try{if(kind==='webcam'){const id=$('camSel').value;stream=await navigator.mediaDevices.getUserMedia({video:id?{deviceId:{exact:id},width:{ideal:1280}}:{width:{ideal:1280}},audio:false});video.src='';video.srcObject=stream;await video.play();listCams();$('btnCam').textContent='Stop feed';$('camTag').textContent='live · webcam';note('cam','Webcam started.');detecting=true;detectLoop();}
+    else if(kind==='file'){fileIn.value='';fileIn.click();}
+    else if(kind==='youtube'){const u=(ytUrl.value.trim()||DEFAULT_YOUTUBE);ytUrl.value=u;const f=await fetchYouTube(u);await startVideo('videos/'+encodeURIComponent(f),f);}
+    else if(kind==='library'){const f=libSel.value;if(!f){$('camTag').textContent='no downloaded videos yet';return;}await startVideo('videos/'+encodeURIComponent(f),f);}
+    else if(kind==='amb'){countMode.value='all';layoutSel.value='one';applyLayout();camApproach.value=CORRIDOR_AP;await startVideo('videos/ambulance_test.mp4','ambulance test clip');}
+    else{countMode.value='all';await startVideo('videos/junction_sample.mp4','sample CCTV clip');}}
+  catch(e){$('camTag').textContent='blocked';$('offline').style.display='block';$('offline').textContent='Feed failed: '+e.message+'. Start the app with run.bat (it runs the local server). For the webcam, allow the camera when asked.';}};
+note('decide',`Junction ${ROLE} online in <b>adaptive</b> mode. Min green ${MIN} s, max ${MAX} s, amber ${AMB} s, fairness limit 75 s. ${lessonsCount()} lessons remembered from earlier runs.`);
+})();
+</script>
+</body>
+</html>
